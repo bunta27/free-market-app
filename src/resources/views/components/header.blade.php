@@ -18,14 +18,14 @@
             </li>
             @else
             <li>
-                <a href="{{ route('login')) }}">ログイン</a>
+                {{-- <a href="{{ route('login') }}">ログイン</a> --}}
             </li>
             <li>
-                <a href="{{ route('register') }}">会員登録</a>
+                {{-- <a href="{{ route('register') }}">会員登録</a> --}}
             </li>
             @endif
             <li class="header__btn">
-                <a href="{{ route('sell') }}">出品</a>
+                {{-- <a href="{{ route('sell') }}">出品</a> --}}
             </li>
         </ul>
     </nav>

@@ -69,3 +69,35 @@ header {
     font-weight: bold;
 }
 
+.header__btn {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+.header__btn:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.container {
+    padding: 5%;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    background-color: #FF5555;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    justify-content: center;
+    width: 450px;
+    height: 45px;
+}
+.btn:hover {
+    opacity: 0.8;
+    transition: 0.2s;
+}
