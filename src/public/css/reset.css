@@ -1,0 +1,108 @@
+/* -------------------------------------------------
+Modern CSS Reset
+Author: Andy Bell + community adaptations
+Last updated: 2024
+   ------------------------------------------------- */
+
+/* 1. 全要素の box-sizing を統一 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 2. 余白とパディングのリセット */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* 3. スクロール挙動とフォント設定 */
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+/* 4. 基本フォントと最小高さ */
+body {
+    min-height: 100dvh;
+    line-height: 1.5;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans",
+        "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
+        "Noto Color Emoji", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 5. メディア要素の初期化 */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* 6. フォーム要素を統一 */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* 7. ボタンを素の状態に戻す */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 8. 見出しとテキストの継承 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font: inherit;
+    font-weight: inherit;
+}
+
+/* 9. リストマーカーをデフォルトで消す */
+ul,
+ol {
+    list-style: none;
+}
+
+/* 10. アンカーのデフォルト装飾を削除 */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 11. テーブルの見た目を初期化 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 12. コード表示の見やすさ */
+code,
+pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas,
+        "Liberation Mono", monospace;
+    font-size: 0.95em;
+}
+
+/* 13. 動きを控えめに（アクセシビリティ対応） */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
