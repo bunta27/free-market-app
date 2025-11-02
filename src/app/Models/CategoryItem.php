@@ -9,7 +9,7 @@ class CategoryItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'category_items';
+    protected $table = 'category_item';
 
     protected $primaryKey = ['item_id', 'category_id'];
 

@@ -4,7 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
+use App\Models\CategoryItem;
+use App\Models\Like;
+use App\Models\Comment;
+use App\Models\SoldItem;
 
 class Item extends Model
 {
@@ -21,60 +26,65 @@ class Item extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function condition()
     {
-        return $this->belongsTo('App\Models\Condition');
+        return $this->belongsTo(Condition::class);
     }
 
-    public function categoryItem()
+    public function categoryItems()
     {
-        return $this->hasMany('App\Models\CategoryItem');
-    }
-
-    public function likes()
-    {
-        return $this->hasMany('App\Models\Like');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany('App\Models\Comment');
+        return $this->hasMany(CategoryItem::class);
     }
 
     public function categories()
     {
-        $categories = $this->categoryItem->map(function ($item) {
-            return $item->category;
-        });
-        return $categories;
+        return $this->belongsToMany(Category::class, 'category_item');
     }
 
-    public function liked()
+    public function likes()
     {
-        return Like::where(['item_id', $this->id, 'user_id' => Auth::id()])->exists();
+        return $this->hasMany(Like::class);
     }
 
-    public function likeCount()
+    public function comments()
     {
-        return Like::where('item_id', $this->id)->count();
+        return $this->hasMany(Comment::class);
+    }
+
+    public function soldItem()
+    {
+        return $this->hasOne(SoldItem::class);
+    }
+
+    public function liked(): bool
+    {
+        if (!Auth::check()) return false;
+        return Like::where([
+            'item_id' => $this->id,
+            'user_id' => Auth::id(),
+        ])->exists();
+    }
+
+    public function likeCount(): int
+    {
+        return $this->likes()->count();
     }
 
     public function getComments()
     {
-        $comments = Comment::where('item_id', $this->id)->get();
-        return $comments;
+        return $this->comments()->latest()->get();
     }
 
-    public function sold()
+    public function sold(): bool
     {
-        return SoldItem::where('item_id', $this->id)->exists();
+        return $this->soldItem()->exists();
     }
 
-    public function mine()
+    public function mine(): bool
     {
-        return $this->user_id === Auth::id();
+        return Auth::check() && $this->user_id === Auth::id();
     }
 }

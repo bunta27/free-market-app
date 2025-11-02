@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\CategoryItem;
 use App\Models\Like;
 use App\Models\Condition;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {

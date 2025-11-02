@@ -12,8 +12,14 @@ class Category extends Model
         'category',
     ];
 
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'category_item');
+    }
+
+
     public function categoryItem()
     {
-        return $this->hasMany('App\Models\categoryItem');
+        return $this->hasMany('App\Models\CategoryItem');
     }
 }

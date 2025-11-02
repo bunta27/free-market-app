@@ -7,28 +7,17 @@ use App\Models\Condition;
 
 class ConditionsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        $param = [
-            'condition' => '良好'
+        $names = [
+            '良好',
+            '目立った傷や汚れなし',
+            'やや傷や汚れあり',
+            '状態が悪い',
         ];
-        Condition::create($param);
-        $param = [
-            'condition' => '目立った傷や汚れなし'
-        ];
-        Condition::create($param);
-        $param = [
-            'condition' => 'やや傷や汚れあり'
-        ];
-        Condition::create($param);
-        $param = [
-            'condition' => '状態が悪い'
-        ];
-        Condition::create($param);
+
+        foreach ($names as $name) {
+            Condition::firstOrCreate(['condition' => $name]);
+        }
     }
 }

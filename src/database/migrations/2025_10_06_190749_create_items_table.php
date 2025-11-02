@@ -16,9 +16,9 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('price');
-            $table->string('description');
-            $table->string('img_url');
+            $table->unsignedInteger('price');
+            $table->text('description');
+            $table->string('img_url', 512);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('condition_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

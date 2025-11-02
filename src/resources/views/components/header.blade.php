@@ -6,26 +6,31 @@
     </div>
     <nav class="header__nav">
         <ul>
-            @if(Auth::check())
-            <li>
-                <form action="/logout" method="post">
-                    @csrf
-                    <button class="header__logout">ログアウト</button>
-                </form>
-            </li>
-            <li>
-                <a href="{{ route('mypage') }}">マイページ</a>
-            </li>
+            @auth
+                <li>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="header__logout">ログアウト</button>
+                    </form>
+                </li>
+                <li>
+                    <a href="{{ route('mypage') }}">マイページ</a>
+                </li>
             @else
-            <li>
-                {{-- <a href="{{ route('login') }}">ログイン</a> --}}
-            </li>
-            <li>
-                {{-- <a href="{{ route('register') }}">会員登録</a> --}}
-            </li>
-            @endif
+                <li>
+                    <a href="{{ route('login') }}">ログイン</a>
+                </li>
+                <li>
+                    <a href="{{ route('register') }}">会員登録</a>
+                </li>
+            @endauth
+
             <li class="header__btn">
-                {{-- <a href="{{ route('sell') }}">出品</a> --}}
+                @auth
+                    <a href="{{ route('item.sell.view') }}">出品する</a>
+                @else
+                    <a href="{{ route('login') }}">出品する</a>
+                @endauth
             </li>
         </ul>
     </nav>

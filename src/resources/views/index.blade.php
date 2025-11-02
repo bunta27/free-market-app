@@ -15,7 +15,7 @@
             <a href="/">おすすめ</a>
         </li>
         <li>
-            <a href="/?tab=mylist">マイリスト</a>
+            <a href="/?page=mylist">マイリスト</a>
         </li>
     </ul>
 </div>

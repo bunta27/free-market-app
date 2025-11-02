@@ -3,11 +3,13 @@
 }
 
 body {
-    width: 100vw;
+    margin: 0;
 }
 
 img {
-    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 button {
@@ -25,6 +27,7 @@ select {
 }
 
 header {
+    position: sticky;
     align-items: center;
     background-color: black;
     color: white;
@@ -39,8 +42,7 @@ header {
 
 .header-logo {
     width: 250px;
-    height: fit-content;
-    vertical-align: middle;
+    height: auto;
 }
 
 .header__nav {
@@ -50,10 +52,12 @@ header {
 .header__nav ul {
     display: flex;
     align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .header__nav li {
-    margin-right: 30px;
+    margin-right: 0;
 }
 
 .header__nav li:hover {
@@ -79,11 +83,13 @@ header {
 
 .header__btn:hover {
     opacity: 0.8;
-    transition: 0.3s;
+    transition: opacity 0.3s;
 }
 
 .container {
     padding: 5%;
+    max-width: 1540px;
+    margin: 0 auto;
 }
 
 .btn {
@@ -94,12 +100,13 @@ header {
     color: white;
     font-weight: bold;
     justify-content: center;
-    width: 450px;
+    width: 100%;
+    max-width: 450px;
     height: 45px;
 }
 .btn:hover {
     opacity: 0.8;
-    transition: 0.2s;
+    transition: opacity 0.2s;
 }
 
 .btn--big {
@@ -127,7 +134,8 @@ header {
 }
 
 .center {
-    width: 680px;
+    width: 100%;
+    max-width: 680px;
     margin: 0 auto;
     padding: 50px 0;
 }

@@ -20,7 +20,7 @@
                 <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">
             </div>
         @endif
-        < class="item__info">
+        <div class="item__info">
             <h2 class="item__name">{{ $item->name }}</h2>
             <p class="item__price">¥{{ number_format($item->price) }}</p>
             <div class="item__form">
@@ -47,31 +47,32 @@
         @elseif($item->mine())
             <a href="#" class="btn item__purchase disable">購入できません</a>
         @else
-            <a href="/item/purchase/{{ $item->id }}" class="btn item__purchase">購入手続きへ</a>
+            <a href="/purchase/{{ $item->id }}" class="btn item__purchase">購入手続きへ</a>
         @endif
-        <h3 class="item__section">商品説明</h3>
-        <p class="item__description">{{ $item->description }}</p>
-        <h3 class="item__section">商品の情報</h3>
-        <table class="item__table">
-            <tr>
-                <th>カテゴリー</th>
-                <td>
-                    <ul class="item__category">
-                        @foreach($item->categories() as $category)
-                        <li class="category__btn">{{ $category->category }}</li>
-                        @endforeach
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th>商品の状態</th>
-                <td>
-                    {{ $item->condition->condition }}
-                </td>
-            </tr>
-        </table>
+            <h3 class="item__section">商品説明</h3>
+            <p class="item__description">{{ $item->description }}</p>
+            <h3 class="item__section">商品の情報</h3>
+            <table class="item__table">
+                <tr>
+                    <th>カテゴリー</th>
+                    <td>
+                        <ul class="item__category">
+                            @foreach($item->categories() as $category)
+                            <li class="category__btn">{{ $category->category }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品の状態</th>
+                    <td>
+                        {{ $item->condition->condition }}
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="comment__section" id="comment">
-            <h3>コメント({{ $item->getComments() as $count() }})</h3>
+            <h3>コメント({{ $item->getComments()->count() }})</h3>
             <div class="comments">
                 @foreach($item->getComments() as $comment)
                 <div class="comment">
@@ -85,7 +86,7 @@
                 </div>
                 @endforeach
             </div>
-            <form action="item/comment/{{$item->id}}" method="post" class="comment__form">
+            <form action="/comment/{{$item->id}}" method="post" class="comment__form">
                 @csrf
                 <p class="comment__form-title">商品へのコメント</p>
                 <textarea name="comment" class="comment__form-textarea"></textarea>

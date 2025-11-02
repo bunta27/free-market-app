@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="ページ1" id="TX2tW-eWj9nljTD5aBU9">
-        <mxGraphModel dx="1456" dy="886" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="1004" dy="753" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="Qq37HYome5P-oXFjXzki-0"/>
                 <mxCell id="Qq37HYome5P-oXFjXzki-1" parent="Qq37HYome5P-oXFjXzki-0"/>
@@ -665,7 +665,7 @@
                         <mxRectangle width="130" height="30" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="Qq37HYome5P-oXFjXzki-160" value="category_items" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" parent="Qq37HYome5P-oXFjXzki-1" vertex="1">
+                <mxCell id="Qq37HYome5P-oXFjXzki-160" value="category_item" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" parent="Qq37HYome5P-oXFjXzki-1" vertex="1">
                     <mxGeometry x="680" y="270" width="160" height="150" as="geometry"/>
                 </mxCell>
                 <mxCell id="Qq37HYome5P-oXFjXzki-161" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" parent="Qq37HYome5P-oXFjXzki-160" vertex="1">
