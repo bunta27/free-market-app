@@ -15,9 +15,10 @@ class UserController extends Controller
 {
     public function profile()
     {
+        $user = Auth::user();
         $profile = Profile::where('user_id', Auth::id())->first();
 
-        return view('profile', compact('profile'));
+        return view('profile', compact('user', 'profile'));
     }
 
     public function updateProfile(ProfileRequest $request)

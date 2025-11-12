@@ -27,13 +27,13 @@
                 @if($item->liked())
                 <form action="/item/unlike/{{$item->id}}" method="post" class="item__like">
                     @csrf
-                    <button type="submit" class="item__like-btn liked">☆</button>
+                    <button type="submit" class="item__like-btn liked">♡</button>
                     <span class="like-count">{{ $item->likes->count() }}</span>
                 </form>
                 @else
                 <form action="/item/like/{{$item->id}}" method="post" class="item__like">
                     @csrf
-                    <button type="submit" class="item__like-btn">☆</button>
+                    <button type="submit" class="item__like-btn">♡</button>
                     <span class="like-count">{{ $item->likes->count() }}</span>
                 </form>
                 @endif
@@ -57,9 +57,11 @@
                     <th>カテゴリー</th>
                     <td>
                         <ul class="item__category">
-                            @foreach($item->categories() as $category)
-                            <li class="category__btn">{{ $category->category }}</li>
-                            @endforeach
+                            @forelse($item->categories as $cat)
+                                <span class="badge">{{ $cat->category }}</span>
+                            @empty
+                                <span class="badge badge--muted">カテゴリ未設定</span>
+                            @endforelse
                         </ul>
                     </td>
                 </tr>

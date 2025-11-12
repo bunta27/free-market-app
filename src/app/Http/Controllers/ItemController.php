@@ -29,6 +29,7 @@ class ItemController extends Controller
 
     public function detail(Item $item)
     {
+        $item->load('categories:id,category', 'condition:id,condition', 'user:id,name');
         return view('detail', compact('item'));
     }
 
@@ -64,7 +65,21 @@ class ItemController extends Controller
                 'category_id' => $category_id,
             ]);
         }
-
         return redirect()->route('item.detail', ['item' => $item->id]);
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->input('query');
+
+        $items = Item::query()
+            ->when($q, function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")->orWhere('description', 'like', "%{$q}%");
+            })
+            ->paginate(20);
+        return view('index', [
+            'items' => $items,
+            'query' => $q,
+        ]);
     }
 }

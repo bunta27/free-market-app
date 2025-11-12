@@ -15,10 +15,10 @@
         @csrf
         <div class="user">
             <div class="user__img">
-                @if($user->img_url)
-                    <img class="user__icon" src="{{ Storage::url($profile->img_url) }}" alt="ユーザー画像">
+                @if($profile && $profile->img_url)
+                    <img class="user__icon" src="{{ Storage::url($profile->img_url) }}" alt="プロフィール画像">
                 @else
-                    <img id="myImage" class="user__icon" src="{{ asset('/img/icon.png') }}" alt="ユーザー画像">
+                    <img id="myImage" class="user__icon" src="{{ asset('/img/icon.png') }}" alt="デフォルト画像">
                 @endif
             </div>
             <div class="profile__user-btn">>

@@ -13,8 +13,7 @@ class CategoryItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_item', function (Blueprint $table) {
-            $table->id();
+        Schema::create('category_items', function (Blueprint $table) {
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

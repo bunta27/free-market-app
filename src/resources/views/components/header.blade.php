@@ -7,6 +7,13 @@
     <nav class="header__nav">
         <ul>
             @auth
+                <li class="header__search">
+                    <form action="{{ route('items.search') }}" method="get">
+                        <input type="text" name="query" placeholder="なにをお探しですか？" value="{{ request('query') }}">
+                        <button type="submit">検索</button>
+                    </form>
+                </li>
+
                 <li>
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
@@ -27,7 +34,7 @@
 
             <li class="header__btn">
                 @auth
-                    <a href="{{ route('item.sell.view') }}">出品する</a>
+                    <a href="{{ route('items.sell.view') }}">出品する</a>
                 @else
                     <a href="{{ route('login') }}">出品する</a>
                 @endauth
