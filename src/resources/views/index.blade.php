@@ -23,7 +23,7 @@
     <div class="items">
         @foreach($items as $item)
             <div class="item">
-                <a href="/item/{{ $item->id }}">
+                <a href="{{ route('items.detail', $item->id) }}">
                 @if($item->sold())
                     <div class="item__img sold">
                         <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">

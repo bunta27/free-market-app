@@ -19,10 +19,10 @@ use App\Http\Controllers\PurchaseController;
 */
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
-Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
+Route::get('/items/search', [ItemController::class, 'search'])->middleware('auth')->name('items.search');
+Route::get('/items/{item}', [ItemController::class, 'detail'])->name('items.detail');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [ItemController::class, 'search'])->name('items.search');
     Route::get('/sell',  [ItemController::class, 'sellView'])->name('items.sell.view');
     Route::post('/sell', [ItemController::class, 'sellCreate'])->name('items.sell.create');
 

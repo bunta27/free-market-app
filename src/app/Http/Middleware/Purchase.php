@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Item;
 
-class PurchaseMiddleware
-{
+class Purchase{
     public function handle(Request $request, Closure $next)
     {
         $itemId = $request->route('item_id');

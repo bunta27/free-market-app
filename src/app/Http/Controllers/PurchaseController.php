@@ -16,33 +16,46 @@ class PurchaseController extends Controller
     {
         $item = Item::find($item_id);
         $user = User::find(Auth::id());
+        $profile = Profile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['postcode' => '', 'address' => '', 'building' => '']
+        );
 
-        return view('purchase', compact('item', 'user'));
+        return view('purchase', compact('item', 'user', 'profile'));
     }
 
     public function purchase($item_id)
     {
-        $item = Item::find($item_id);
+        $item = Item::findOrFail($item_id);
 
         if ($item->user_id !== Auth::id()) {
             return redirect('/');
         }
+
+        // 購入処理
+
+        return redirect()->route('items.detail', ['item' => $item->id]);
     }
 
-    public function address($item_id, AddressRequest $request)
+    public function address($item_id, Request $request)
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
 
-        return view('address', compact('item_id', 'user'));
+        $profile = Profile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['postcode' => '', 'address' => '', 'building' => '']
+        );
+
+        return view('address', compact('item_id', 'user', 'profile'));
     }
 
     public function updateAddress(AddressRequest $request)
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
 
-        Profile::where('user_id', Auth::id())->update([
+        Profile::where('user_id', $user->id)->update([
             'postcode' => $request->postcode,
-            'address' => $request->address,
+            'address'  => $request->address,
             'building' => $request->building,
         ]);
 

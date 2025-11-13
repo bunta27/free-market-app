@@ -11,8 +11,11 @@
 @include('components.header')
 <div class="container">
     <h1 class="container__title">住所の変更</h1>
-    <form action="/purchase/address/{{$item->id}}" method="post" class="address">
+    <form action="{{ route('purchase.address.update', ['item_id' => $item_id]) }}" method="post" class="address">
         @csrf
+
+        <input type="hidden" name="item_id" value="{{ $item_id }}">
+
         <label for="postcode" class="form__label">郵便番号</label>
         <input type="text" name="postcode" id="postcode" class="form__input" value="{{ $user->profile->postcode }}">
             @error('postcode')

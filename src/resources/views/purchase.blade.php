@@ -35,7 +35,7 @@
             <div class="purchases">
                 <div class="purchase__flex">
                     <h3 class="purchase__title">配送先</h3>
-                    <a href="/purchase/address" class="purchase__change">変更する</a>
+                    <a href="{{ route('purchase.address', ['item_id' => $item->id]) }}" class="purchase__change">変更する</a>
                 </div>
                 <div class="purchase__value">
                     <p>〒 {{ $user->profile->postcode }}</p>
