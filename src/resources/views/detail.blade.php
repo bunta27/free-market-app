@@ -27,7 +27,7 @@
                 @if($item->liked())
                 <form action="/item/unlike/{{$item->id}}" method="post" class="item__like">
                     @csrf
-                    <button type="submit" class="item__like-btn liked">♡</button>
+                    <button type="submit" class="item__like-btn liked">♥</button>
                     <span class="like-count">{{ $item->likes->count() }}</span>
                 </form>
                 @else
@@ -47,7 +47,7 @@
         @elseif($item->mine())
             <a href="#" class="btn item__purchase disable">購入できません</a>
         @else
-            <a href="/purchase/{{ $item->id }}" class="btn item__purchase">購入手続きへ</a>
+            <a href="{{ route('purchase.index', ['item_id' => $item->id]) }}" class="btn item__purchase">購入手続きへ</a>
         @endif
             <h3 class="item__section">商品説明</h3>
             <p class="item__description">{{ $item->description }}</p>
@@ -77,18 +77,22 @@
             <h3>コメント({{ $item->getComments()->count() }})</h3>
             <div class="comments">
                 @foreach($item->getComments() as $comment)
-                <div class="comment">
-                    <div class="comment__user">
-                        <div class="user__img">
-                            <img src="{{ Storage::url($comment->user->profile->img_url) }}" alt="ユーザー画像">
+                    <div class="comment">
+                        <div class="comment__user">
+                            <div class="user__img">
+                                @if($comment->user->profile && $comment->user->profile->img_url)
+                                    <img src="{{ Storage::url($comment->user->profile->img_url) }}" alt="ユーザー画像">
+                                @else
+                                    <img src="{{ asset('/img/icon.png') }}" alt="ユーザー画像">
+                                @endif
+                            </div>
+                            <p class="comment__name">{{ $comment->user->name }}</p>
                         </div>
-                        <p class="comment__name">{{ $comment->user->name }}</p>
+                        <p class="comment__content">{{ $comment->comment }}</p>
                     </div>
-                    <p class="comment__content">{{ $comment->comment }}</p>
-                </div>
                 @endforeach
             </div>
-            <form action="/comment/{{$item->id}}" method="post" class="comment__form">
+            <form action="{{ route('comments.create', ['item_id' => $item->id]) }}" method="post" class="comment__form">
                 @csrf
                 <p class="comment__form-title">商品へのコメント</p>
                 <textarea name="comment" class="comment__form-textarea"></textarea>

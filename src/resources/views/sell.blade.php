@@ -11,7 +11,7 @@
 @include('components.header')
 <div class="container">
     <h1 class="container__title">商品の出品</h1>
-    <form action="#" method="post" class="sell" enctype="multipart/form-data">
+    <form action="{{ route('items.sell.create') }}" method="post" class="sell" enctype="multipart/form-data">
         @csrf
         <label for="img_url" class="form__label">商品画像</label>
         <div class="sell__img">
@@ -21,6 +21,10 @@
             @error('img_url')
                 {{ $message }}
             @enderror
+
+            <div class="sell__img-preview">
+                <img id="previewImage" class="sell__img-preview-image is-hidden" src="" alt="プレビュー画像">
+            </div>
         </div>
 
         <h2 class="heading__name">商品の詳細</h2>
@@ -33,12 +37,12 @@
             </div>
             @endforeach
         </div>
-            @error('category_id')
+            @error('categories')
                 {{ $message }}
             @enderror
 
         <label for="status" class="form__label">商品の状態</label>
-        <select name="condition__id" id="status" class="sell__select input">
+        <select name="condition_id" id="status" class="sell__select input">
             <option hidden>選択してください</option>
             @foreach($conditions as $condition)
             <option value="{{ $condition->id }}">{{ $condition->condition }}</option>
@@ -76,18 +80,29 @@
 
         <button type="submit" class="form__btn">出品する</button>
     </form>
+
     <script>
-        const target = document.getElementById('target');
-        const e = document.getElementById('upload');
-        target.addEventListener('change', function(e) {
+        const fileInput = document.getElementById('target');
+        const previewImage = document.getElementById('previewImage');
+
+        fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElementById('myImage');
-                img.src = e.target.result;
+
+            if (!file) {
+                previewImage.src = '';
+                previewImage.classList.add('is-hidden');
+                return;
             }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.classList.remove('is-hidden');
+            };
+
             reader.readAsDataURL(file);
-        },false);
+        }, false);
     </script>
 </div>
 @endsection

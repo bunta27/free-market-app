@@ -15,7 +15,7 @@
     <form action="{{ route('login') }}" method="post" class="authenticate">
         @csrf
         <label for="email" class="form__label">メールアドレス</label>
-        <input type="email" name="email" id="email" class="form__input">
+        <input type="text" name="email" id="email" class="form__input">
             @error('email')
                 {{ $message }}
             @enderror

@@ -16,55 +16,50 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $profile = Profile::where('user_id', Auth::id())->first();
+        $profile = Profile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['postcode' => '', 'address' => '', 'building' => '', 'img_url' => null]
+        );
 
         return view('profile', compact('user', 'profile'));
     }
 
     public function updateProfile(ProfileRequest $request)
     {
-        $img = $request->file('img_url');
-        if (isset($img)) {
-            $img_url = Storage::disk('local')->put('public/img', $img);
+        $user = Auth::user();
+        $profile = Profile::firstOrCreate(['user_id' => $user->id]);
+
+        if ($request->hasFile('img_url')) {
+            $path = $request->file('img_url')->store('profiles', 'public');
         } else {
-            $img_url = '';
+            $path = $profile->img_url;;
         }
 
-        $profile = Profile::where('user_id', Auth::id())->first();
-        if ($profile) {
-            $profile->update([
-                'user_id' => Auth::id(),
-                'img_url' => $img_url,
-                'postcode' => $request->postcode,
-                'address' => $request->address,
-                'building' => $request->building,
-            ]);
-        } else {
-            Profile::create([
-                'user_id' => Auth::id(),
-                'img_url' => $img_url,
-                'postcode' => $request->postcode,
-                'address' => $request->address,
-                'building' => $request->building,
-            ]);
-        }
-
-        User::find(Auth::id())->update([
-            'name' => $request->name,
+        $profile->update([
+            'img_url'  => $path,
+            'postcode' => $request->postcode,
+            'address'  => $request->address,
+            'building' => $request->building,
         ]);
 
-        return redirect('/');
+        $user->update([
+        'name' => $request->name,
+        ]);
+
+        return redirect()->route('mypage');
     }
 
     public function mypage(Request $request)
     {
-        $user = User::find(Auth::id());
-        if ($request->page == 'buy') {
-            $items = SoldItem::where('user_id', Auth::id())->get()->map(function ($sold_item) {
-                return $sold_item->item;
-            });
+        $user = Auth::user();
+        $tab  = $request->query('page', 'sell');
+
+        if ($tab === 'buy') {
+            $items = Item::whereHas('soldItem', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })->get();
         } else {
-            $items = Item::where('user_id', Auth::id())->get();
+            $items = Item::where('user_id', $user->id)->get();
         }
 
         return view('mypage', compact('user', 'items'));

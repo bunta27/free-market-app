@@ -61,7 +61,7 @@
                 </tr>
             </table>
         </div>
-        <form action="/purchase/{{$item->id}}" method="post">
+        <form action="{{ route('purchase.execute', ['item_id' => $item->id]) }}" method="post">
             @csrf
             @if($item->sold())
                 <button type="submit" class="btn disable" disabled>売り切れました</button>

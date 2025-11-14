@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AddressRequest;
 use App\Models\Item;
-use App\Models\User;
-use App\Models\SoldItem;
 use App\Models\Profile;
+use App\Models\SoldItem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
     public function index($item_id, Request $request)
     {
-        $item = Item::find($item_id);
-        $user = User::find(Auth::id());
+        $item = Item::findOrFail($item_id);
+        $user = Auth::user();
         $profile = Profile::firstOrCreate(
             ['user_id' => $user->id],
             ['postcode' => '', 'address' => '', 'building' => '']
@@ -24,20 +24,47 @@ class PurchaseController extends Controller
         return view('purchase', compact('item', 'user', 'profile'));
     }
 
-    public function purchase($item_id)
+    public function purchase($item_id, Request $request)
     {
-        $item = Item::findOrFail($item_id);
+        $user = Auth::user();
+        $item = Item::with('soldItem')->findOrFail($item_id);
 
-        if ($item->user_id !== Auth::id()) {
-            return redirect('/');
+        if ($item->mine()) {
+            return redirect()
+                ->route('items.detail', ['item' => $item->id]);
         }
 
-        // 購入処理
+        if ($item->sold()) {
+            return redirect()
+                ->route('items.detail', ['item' => $item->id]);
+        }
+
+        DB::transaction(function () use ($item) {
+            SoldItem::create([
+                'item_id'  => $item->id,
+                'user_id' => Auth::id(),
+            ]);
+        });
+
+        $profile = Profile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['postcode' => '', 'address' => '', 'building' => '']
+        );
+
+        DB::transaction(function () use ($item, $user, $profile) {
+            SoldItem::create([
+                'item_id'          => $item->id,
+                'user_id'          => $user->id,
+                'sending_postcode' => $profile->postcode,
+                'sending_address'  => $profile->address,
+                'sending_building' => $profile->building,
+            ]);
+        });
 
         return redirect()->route('items.detail', ['item' => $item->id]);
     }
 
-    public function address($item_id, Request $request)
+    public function address($item_id)
     {
         $user = Auth::user();
 

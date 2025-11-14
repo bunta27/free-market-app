@@ -45,7 +45,8 @@ class ItemController extends Controller
         $img = $request->file('img_url');
 
         try {
-            $img_url = Storage::disk('local')->put('public/img', $img);
+            $img_path = $request->file('img_url')->store('items', 'public');
+
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -54,7 +55,7 @@ class ItemController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
-            'img_url' => $img_url,
+            'img_url' => $img_path,
             'condition_id' => $request->condition_id,
             'user_id' => Auth::id(),
         ]);
@@ -65,7 +66,9 @@ class ItemController extends Controller
                 'category_id' => $category_id,
             ]);
         }
-        return redirect()->route('item.detail', ['item' => $item->id]);
+
+        return redirect()->route('items.detail', ['item' => $item->id]);
+
     }
 
     public function search(Request $request)
