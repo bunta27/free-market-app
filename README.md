@@ -47,11 +47,11 @@ MySQL が起動しない場合は OS によって設定が必要になること�
 
 ## 使用技術（実行環境）
 
-    PHP 8.1.33  
-    Laravel Framework 8.83.8  
-    mysql 8.0.26  
-    Nginx 1.21.1  
-    Docker 28.3.2/ Docker Compose v2.39.1
+  PHP 8.1.33  
+  Laravel Framework 8.83.8  
+  mysql 8.0.26  
+  Nginx 1.21.1  
+  Docker 28.3.2/ Docker Compose v2.39.1
 
 ## ER 図
 
@@ -59,5 +59,5 @@ MySQL が起動しない場合は OS によって設定が必要になること�
 
 ## URL
 
-    開発環境: http://localhost/  
-    phpMyAdmin: http://localhost:8080/
+  開発環境: http://localhost/  
+  phpMyAdmin: http://localhost:8080/
