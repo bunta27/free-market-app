@@ -60,15 +60,6 @@ class Item extends Model
         return $this->hasOne(SoldItem::class);
     }
 
-    public function liked(): bool
-    {
-        if (!Auth::check()) return false;
-        return Like::where([
-            'item_id' => $this->id,
-            'user_id' => Auth::id(),
-        ])->exists();
-    }
-
     public function likeCount(): int
     {
         return $this->likes()->count();
