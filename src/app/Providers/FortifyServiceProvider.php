@@ -11,6 +11,7 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -24,17 +25,14 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        Fortify::authenticateUsing(function ($request) {
+        Fortify::authenticateUsing(function (Request $request) {
+
+            $loginRequest = app(LoginRequest::class);
+
             Validator::make(
                 $request->only('email', 'password'),
-                [
-                    'email'    => ['required'],
-                    'password' => ['required'],
-                ],
-                [
-                    'email.required'    => 'メールアドレスを入力してください',
-                    'password.required' => 'パスワードを入力してください',
-                ]
+                $loginRequest->rules(),
+                $loginRequest->messages()
             )->validate();
 
             $user = User::where('email', $request->email)->first();
