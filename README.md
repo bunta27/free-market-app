@@ -10,40 +10,41 @@
 ## 環境構築
 1. リポジトリ取得
 
-    git@github.com:bunta27/free-market-app.git (https://github.com/bunta27/free-market-app.git)
-    cd coachtech/laravel/free-market-app
+  git@github.com:bunta27/free-market-app.git (https://github.com/bunta27/free-market-app.git)
+  cd coachtech/laravel/free-market-app
 
 2. .env 作成
 
-    cp .env.example .env
+  cp .env.example .env
 
 3. .env を docker-compose のサービス名に合わせて調整
 
-    DB_CONNECTION=mysql
-    DB_HOST=mysql
-    DB_PORT=3306
-    DB_DATABASE=laravel_db
-    DB_USERNAME=laravel_user
-    DB_PASSWORD=laravel_pass
+  DB_CONNECTION=mysql
+  DB_HOST=mysql
+  DB_PORT=3306
+  DB_DATABASE=laravel_db
+  DB_USERNAME=laravel_user
+  DB_PASSWORD=laravel_pass
 
 4. コンテナ起動（ビルド）
 
-    docker-compose up -d --build
+  docker-compose up -d --build
 
 5. PHP コンテナに入って依存関係をインストール
 
-    docker-compose exec php bash
-    composer install
+  docker-compose exec php bash
+  composer install
 
 6. アプリケーションキーを生成
 
-    php artisan key:generate
+  php artisan key:generate
 
 7. マイグレーション & シーディング
 
-    php artisan migrate --seed
+  php artisan migrate --seed
 
-MySQL が起動しない場合は OS によって設定が必要になることがあります。各自の PC に合わせて `docker-compose.yml` の設定を調整してください。
+MySQL が起動しない場合は OS によって設定が必要になることがあります。  
+各自の PC に合わせて `docker-compose.yml` の設定を調整してください。
 
 ## 使用技術（実行環境）
 
