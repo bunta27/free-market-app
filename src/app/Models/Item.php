@@ -5,11 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Category;
-use App\Models\CategoryItem;
-use App\Models\Like;
-use App\Models\Comment;
-use App\Models\SoldItem;
 
 class Item extends Model
 {
@@ -44,10 +39,16 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'category_items');
     }
 
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
+    public function liked(): bool
+{
+    if (!Auth::check()) {
+        return false;
     }
+
+    return $this->likes()
+        ->where('user_id', Auth::id())
+        ->exists();
+}
 
     public function comments()
     {
