@@ -39,15 +39,20 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'category_items');
     }
 
-    public function liked(): bool
-{
-    if (!Auth::check()) {
-        return false;
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'item_id');
     }
 
-    return $this->likes()
-        ->where('user_id', Auth::id())
-        ->exists();
+    public function liked(): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return $this->likes()
+            ->where('user_id', Auth::id())
+            ->exists();
 }
 
     public function comments()

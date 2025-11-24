@@ -11,10 +11,10 @@
 @include('components.header')
 <div class="border">
     <ul class="border__list">
-        <li>
+        <li class="border__tab {{ request('page') !== 'mylist' ? 'border__tab--active' : '' }}">
             <a href="/">おすすめ</a>
         </li>
-        <li>
+        <li class="border__tab {{ request('page') === 'mylist' ? 'border__tab--active' : '' }}">
             <a href="/?page=mylist">マイリスト</a>
         </li>
     </ul>

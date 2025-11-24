@@ -1,78 +1,334 @@
-.buy {
+.container {
+    max-width: 1245px;
+    margin: 90px auto;
+    padding: 10px 20px 80px;
+}
+
+.buy .item {
     display: flex;
-    justify-content: space-around;
+    align-items: flex-start;
 }
 
 .buy__left {
-    width: 50%;
+    width: 805px;
 }
 
-.buy__right {
-    width: fit-content;
-}
-
-.item {
-    display: flex;
-}
 
 .item__img {
-    width: 120px;
-    height: 120px;
+    width: 178px;
+    height: 178px;
     background-color: #d9d9d9;
-    border-radius: 5px;
-    margin-right: 60px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.item__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-left: 30px;
 }
 
 .item__name {
-    font-size: 24px;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
 }
 
 .item__price {
-    font-size: 20px;
-    margin-top: 30px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.item__price .yen {
+    font-size: 27px;
+    font-weight: 400;
+}
+
+.item__price .price {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.purchase-line {
+    border: none;
+    border-top: 1px solid #000000;
+    width: 100%;
+    margin: 32px 0 24px;
+}
+
+.custom-select {
+    position: relative;
+    width: 265px;
+    font-size: 16px;
+    margin-left: 80px;
+}
+
+.custom-select__trigger {
+    width: 100%;
+    height: 31px;
+    padding: 0 12px;
+    border-radius: 5px;
+    border: 1.5px solid #B1B1B1;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.custom-select__label {
+    color: #5F5F5F;
+    font-weight: bold;
+}
+
+.custom-select__icon {
+    font-size: 10px;
+    color: #5F5F5F;
+}
+
+.custom-select__options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #636769;
+    border-radius: 5px;
+    border: 1.5px solid #B1B1B1;
+    box-sizing: border-box;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 100;
+}
+
+.custom-select__option {
+    width: 269px;
+    height: 31px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.custom-select__option:hover {
+    background-color: #4f5254;
+}
+
+.custom-select__option.is-selected {
+    background-color: #5599EB;
+}
+
+.custom-select__option.is-selected::before {
+    content: "✓";
+    margin-right: 8px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.custom-select.is-open .custom-select__options {
+    display: block;
+}
+
+.custom-select.is-open .custom-select__trigger {
+    visibility: hidden;
+}
+
+.custom-select__real {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .purchases {
-    margin-top: 50px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 60px;
+    margin-bottom: 30px;
 }
 
-.purchase {
-    border-top: 1px solid #5f5f5f;
-    border-bottom: 1px solid #5f5f5f;
-    padding: 30px;
-}
-
-.purchase:first-child {
-    border-bottom: none;
+.purchases:last-of-type {
+    border-bottom: 1px solid #000;
+    padding-bottom: 30px;
 }
 
 .purchase__flex {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-.purchase__update {
+.purchase__flex a {
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.purchase__title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    margin-left: 20px;
+    color: #000;
+}
+
+.purchase__change:hover {
+    text-decoration: underline;
+}
+
+.select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.purchases .purchase__value p {
+    margin: 0 0 10px 80px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.purchase__change {
+    font-size: 14px;
     color: #0073cc;
+    text-decoration: none;
 }
 
-.purchase__value {
-    padding: 40px 50px;
+.buy {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 100px;
+}
+
+.buy__right {
+    width: 440px;
+}
+
+.buy__info {
+    width: 100%;
+    border: 1px solid #000;
+    padding: 0;
+    box-sizing: border-box;
+    margin-bottom: 30px;
 }
 
 .buy__info table {
-    width: 450px;
-    margin-bottom: 60px
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-.buy__info tr {
-    border: 1px solid #5f5f5f;
+.buy__info th,
+.buy__info td {
+    padding: 28px 32px;
 }
 
-.buy__info th, .buy__info td {
-    width: 50%;
-    height: 100px;
-    padding: 50px;
+.buy__info th {
+    text-align: left;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.buy__info td {
+    text-align: right;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.price-cell .yen {
+    font-size: 20px;
+    font-weight: 400;
+    margin-right: 6px;
+}
+
+.price-cell .amount {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.buy__info tr:last-child td {
+    font-size: 20px;
+}
+
+.buy__info tr+tr th,
+.buy__info tr+tr td {
+    border-top: 1px solid #000;
+}
+
+.buy__right .btn {
+    width: 100%;
+    max-width: 440px;
+    height: 56px;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 850px) {
+    .container {
+        padding: 0 20px;
+        margin: 60px auto;
+    }
+
+    .buy {
+        flex-direction: column;
+    }
+
+    .buy__left,
+    .buy__right {
+        width: 100%;
+    }
+
+    .custom-select {
+        width: 100%;
+        max-width: 269px;
+    }
+
+    .item {
+        flex-direction: row;
+    }
+
+    .item__img {
+        width: 150px;
+        height: 150px;
+        margin-right: 24px;
+    }
+
+    .item__name {
+        font-size: 20px;
+    }
+
+    .purchases:last-of-type {
+        padding-bottom: 16px;
+        margin-bottom: 0;
+    }
+
+    .buy__info {
+        padding: 20px;
+    }
+
+    .buy__right .btn {
+        max-width: 100%;
+    }
+
 }

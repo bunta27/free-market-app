@@ -1,29 +1,106 @@
-.sell__img {
-    border: 1px solid #5f5f5f;
-    width: 100%;
-    height: 150px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.container {
+    max-width: 680px;
+    margin: 50px auto 80px;
 }
 
-.upload{
-    width: 300px;
-    height: auto;
+.container__title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.form__label {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 30px 0 0;
+}
+
+.sell__img {
+    border: 1px dashed #5f5f5f;
+    border-radius: 4px;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 24px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.sell__img-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.sell__img-inner.has-image {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;;
+    padding: 0 60px;
+}
+
+.btn2 {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 2px solid #f55;
+    color: #ff5655;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.btn2__input {
+    display: none;
+}
+
+.sell__img-preview {
+    display: none;
+}
+
+.sell__img-preview.has-image {
+    display: block;
+    width: 160px;
+    height: 160px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.sell__img-preview-image.is-hidden {
+    display: none;
 }
 
 .heading__name {
-    font-size: 24px;
-    color: #5f5f5f;
-    border-bottom: 1px solid #5f5f5f;
+    font-size: 30px;
+    font-weight: bold;
+    color: #5F5F5F;
+    border-bottom: 1px solid #5F5F5F;
     padding-bottom: 10px;
-    margin-top: 50px;
+    margin: 50px 0 20px;
+}
+
+.sell__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+    margin: 30px 5px 40px;
 }
 
 .sell__category {
-    display: inline-block;
-    margin: 15px 10px;
+    display: flex;
+    align-items: center;
+    margin: 0;
 }
 
 .sell__check {
@@ -31,16 +108,32 @@
 }
 
 .sell__check-label {
-    background-color: white;
-    border: 1px solid #f55;
-    color: #f55;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 2px 16px;
     border-radius: 15px;
-    padding: 5px 10px;
+    background-color: #FFFFFF;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    font-size: 15px;
+    cursor: pointer;
 }
 
-.sell__check[type="checkbox"]:checked + label {
-    background-color: #f55;
-    color: white;
+.sell__check:checked+.sell__check-label {
+    background-color: #FF5555;
+    color: #FFFFFF;
+}
+
+.sell__select {
+    height: 45px;
+    margin-top: 8px;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .sell__select:hover {
@@ -49,6 +142,53 @@
 
 .textarea {
     width: 100%;
-    height: 125px;
-    overflow-y: scroll;
+    min-height: 180px;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 850px) {
+    .sell {
+        max-width: 100%;
+        margin: 60px auto 80px;
+        padding: 0 10px;
+    }
+
+    .sell__img {
+        flex-direction: column;
+    }
+
+    .sell__img-inner.has-image {
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .heading__name {
+        font-size: 24px;
+        margin: 40px 0 16px;
+    }
+
+    .sell__categories {
+        gap: 10px 20px;
+        margin: 30px 5px 50px;
+    }
+    .sell__category {
+        margin: 6px 6px 0 0;
+    }
+
+    .sell__check-label {
+        font-size: 15px;
+        padding: 2px 14px;
+    }
+
+    .textarea {
+        min-height: 160px;
+    }
 }

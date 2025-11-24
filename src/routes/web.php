@@ -26,8 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/sell',  [ItemController::class, 'sellView'])->name('items.sell.view');
     Route::post('/sell', [ItemController::class, 'sellCreate'])->name('items.sell.create');
 
-    Route::post('/item/like/{item_id}',   [LikeController::class, 'create'])->name('likes.create');
-    Route::post('/item/unlike/{item_id}', [LikeController::class, 'delete'])->name('likes.delete');
+    Route::post('/item/like/{item_id}',   [LikeController::class, 'create'])->middleware('auth')->name('likes.create');
+    Route::post('/item/unlike/{item_id}', [LikeController::class, 'delete'])->middleware('auth')->name('likes.delete');
 
     Route::post('/item/comments/{item_id}', [CommentController::class, 'create'])->name('comments.create');
 

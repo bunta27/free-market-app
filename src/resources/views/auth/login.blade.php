@@ -1,4 +1,3 @@
-{{-- resources/views/auth/login.blade.php --}}
 @extends('layouts.app')
 
 @section('title','ログイン')
@@ -14,17 +13,21 @@
     <h1 class="container__title">ログイン</h1>
     <form action="{{ route('login') }}" method="post" class="authenticate">
         @csrf
-        <label for="email" class="form__label">メールアドレス</label>
-        <input type="text" name="email" id="email" class="form__input">
-            @error('email')
-                {{ $message }}
-            @enderror
+        <div class="form__group">
+            <label for="email" class="form__label">メールアドレス</label>
+            <input type="text" name="email" id="email" class="form__input">
+                @error('email')
+                    <div class="form__error">{{ $message }}</div>
+                @enderror
+        </div>
 
-        <label for="password" class="form__label">パスワード</label>
-        <input type="password" name="password" id="password" class="form__input">
-            @error('password')
-                {{ $message }}
-            @enderror
+        <div class="form__group">
+            <label for="password" class="form__label">パスワード</label>
+            <input type="password" name="password" id="password" class="form__input">
+                @error('password')
+                    <div class="form__error">{{ $message }}</div>
+                @enderror
+        </div>
 
         <button type="submit" class="form__btn">ログインする</button>
 
