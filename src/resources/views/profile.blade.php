@@ -21,12 +21,12 @@
                     <img id="myImage" class="user__icon" src="{{ asset('/img/icon.png') }}" alt="デフォルト画像">
                 @endif
             </div>
-            <div class="profile__user-btn">>
+            <div class="profile__user-btn">
                 <label class="btn2">画像を選択する
                     <input type="file" name="img_url" id="target" class="btn2-input" accept="image/jpeg,image/png,image/jpg">
                 </label>
                 @error('img_url')
-                    {{ $message }}
+                    <div class="form__error">{{ $message }}</div>
                 @enderror
             </div>
         </div>
@@ -34,19 +34,19 @@
         <label for="name" class="form__label">ユーザー名</label>
         <input type="text" name="name" id="name" class="form__input" value="{{ Auth::user()->name }}">
             @error('name')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
 
         <label for="postcode" class="form__label">郵便番号</label>
         <input type="postcode" name="postcode" id="postcode" class="form__input" value="{{ $profile ? $profile->postcode : '' }}">
             @error('postcode')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
 
         <label for="address" class="form__label">住所</label>
         <input type="text" name="address" id="address" class="form__input" value="{{ $profile ? $profile->address : '' }}">
             @error('address')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
 
         <label for="building" class="form__label">建物名</label>

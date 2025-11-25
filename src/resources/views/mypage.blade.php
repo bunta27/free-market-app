@@ -28,14 +28,15 @@
     </div>
     <div class="border">
         <ul class="border__list">
-            <li>
+            <li class="{{ request('page') === 'sell' ? 'active' : '' }}">
                 <a href="/mypage?page=sell">出品した商品</a>
             </li>
-            <li>
+            <li class="{{ request('page') === 'buy' ? 'active' : '' }}">
                 <a href="/mypage?page=buy">購入した商品</a>
             </li>
         </ul>
     </div>
+
     <div class="items">
         @foreach($items as $item)
             <div class="item">

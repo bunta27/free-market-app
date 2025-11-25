@@ -1,6 +1,20 @@
+.container {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.container__title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 60px 0;
+}
+
 .user {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
+    gap: 60px;
     margin-bottom: 50px;
 }
 
@@ -9,8 +23,103 @@
     height: 150px;
     border-radius: 50%;
     background-color: #d9d9d9;
-    margin-right: 60px;
+    overflow: hidden;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    justify-content: center;
+}
+
+.user__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile__user-btn {
+    display: flex;
+    align-items: center;
+}
+
+.btn2 {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    border-radius: 10px;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn2-input {
+    display: none;
+}
+
+.profile {
+    width: 100%;
+}
+
+.form__label {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.form__input {
+    width: 100%;
+    height: 55px;
+    border-radius: 4px;
+    border: 1px solid #5f5f5f;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    font-size: 24px;
+}
+
+.form__btn {
+    width: 100%;
+    height: 60px;
+    margin: 60px 0 80px;
+    background-color: #FF5555;
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+
+    .container {
+        margin: 40px auto 60px;
+        padding: 0 16px;
+    }
+
+    .user {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+
+    .profile__user-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn2 {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form__btn {
+        margin: 32px auto 60px;
+    }
 }

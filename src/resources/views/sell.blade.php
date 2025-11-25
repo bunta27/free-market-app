@@ -32,7 +32,7 @@
         @enderror
 
         <h2 class="heading__name">商品の詳細</h2>
-        <label for="category" class="form__label">カテゴリー</label>
+        <label class="form__label">カテゴリー</label>
         <div class="sell__categories">
             @foreach($categories as $category)
             <div class="sell__category">
@@ -45,13 +45,33 @@
                 <div class="form__error">{{ $message }}</div>
             @enderror
 
-        <label for="status" class="form__label">商品の状態</label>
-        <select name="condition_id" id="status" class="sell__select input">
-            <option hidden>選択してください</option>
-            @foreach($conditions as $condition)
-            <option value="{{ $condition->id }}">{{ $condition->condition }}</option>
-            @endforeach
-        </select>
+        <label for="condition" class="form__label">商品の状態</label>
+
+            <div class="custom-select">
+                <select name="condition_id" id="condition" class="custom-select__real">
+                    <option value="" selected disabled>選択してください</option>
+                    @foreach($conditions as $condition)
+                        <option value="{{ $condition->id }}">{{ $condition->condition }}</option>
+                    @endforeach
+                </select>
+
+                <button type="button" class="custom-select__trigger">
+                    <span class="custom-select__label">選択してください</span>
+                    <span class="select-arrow">
+                        @include('components.svg.arrow')
+                    </span>
+                </button>
+
+                <ul class="custom-select__options">
+                    @foreach($conditions as $condition)
+                        <li class="custom-select__option"
+                            data-value="{{ $condition->id }}">
+                            {{ $condition->condition }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
             @error('condition_id')
                 <div class="form__error">{{ $message }}</div>
             @enderror
@@ -64,7 +84,7 @@
                 <div class="form__error">{{ $message }}</div>
             @enderror
 
-        <label for="name" class="form__label">ブランド名</label>
+        <label for="brand" class="form__label">ブランド名</label>
         <input type="text" name="brand" id="brand" class="input">
             @error('brand')
                 <div class="form__error">{{ $message }}</div>
@@ -77,7 +97,10 @@
             @enderror
 
         <label for="price" class="form__label">販売価格</label>
-        <input type="number" name="price" id="price" class="input">
+        <div class="price-wrapper">
+            <span class="yen">¥</span>
+            <input type="number" name="price" id="price" class="input price-input">
+        </div>
             @error('price')
                 <div class="form__error">{{ $message }}</div>
             @enderror
@@ -86,30 +109,76 @@
     </form>
 
     <script>
-        const fileInput = document.getElementById('target');
-        const previewImage = document.getElementById('previewImage');
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput      = document.getElementById('target');
+            const previewImage   = document.getElementById('previewImage');
+            const previewWrapper = document.querySelector('.sell__img-preview');
+            const imgInner       = document.querySelector('.sell__img-inner');
 
-        fileInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
 
-            if (!file) {
-                previewImage.src = '';
-                previewImage.classList.add('is-hidden');
-                return;
+                    if (!file) {
+                        previewImage.src = '';
+                        previewImage.classList.add('is-hidden');
+                        previewWrapper.classList.remove('has-image');
+                        imgInner.classList.remove('has-image');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        previewImage.src = event.target.result;
+                        previewImage.classList.remove('is-hidden');
+
+                        previewWrapper.classList.add('has-image');
+                        imgInner.classList.add('has-image');
+                    };
+
+                    reader.readAsDataURL(file);
+                }, false);
             }
 
-            const reader = new FileReader();
+            const customSelects = document.querySelectorAll('.custom-select');
 
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;
-                previewImage.classList.remove('is-hidden');
+            customSelects.forEach((cs) => {
+                const trigger    = cs.querySelector('.custom-select__trigger');
+                const label      = cs.querySelector('.custom-select__label');
+                const options    = cs.querySelectorAll('.custom-select__option');
+                const realSelect = cs.querySelector('.custom-select__real');
 
-                document.querySelector('.sell__img-preview').classList.add('has-image');
-                document.querySelector('.sell__img-inner').classList.add('has-image');
-            };
+                trigger.addEventListener('click', () => {
+                    cs.classList.toggle('is-open');
+                });
 
-            reader.readAsDataURL(file);
-        }, false);
+                options.forEach((opt) => {
+                    opt.addEventListener('click', () => {
+                        const value = opt.dataset.value;
+                        const text  = opt.textContent.trim();
+
+                        label.textContent = text;
+
+                        options.forEach(o => o.classList.remove('is-selected'));
+                        opt.classList.add('is-selected');
+
+                        realSelect.value = value;
+                        realSelect.dispatchEvent(new Event('change'));
+
+                        cs.classList.remove('is-open');
+                    });
+                });
+            });
+
+                    document.addEventListener('click', (e) => {
+                        customSelects.forEach((cs) => {
+                            if (!cs.contains(e.target)) {
+                                cs.classList.remove('is-open');
+                            }
+                        });
+                    });
+                });
     </script>
 </div>
 @endsection
