@@ -1,5 +1,5 @@
 # アプリケーション名
-フリマアプリ（Laravel）
+フリマアプリ
 
 ## プロジェクト概要
 ユーザーが商品を出品・購入できるフリーマーケットアプリです。
@@ -56,9 +56,14 @@
 
 ## ER 図
 
-<img src="docs/ER.svg" art="ER図" width="1200">
+<img src="docs/ER.svg" alt="ER図" width="1200">
 
 ## URL
 
   - 開発環境: http://localhost/  
   - phpMyAdmin: http://localhost:8080/
+
+## ログイン情報
+■ 一般ユーザー  
+Email: demo@example.com  
+Password: password
