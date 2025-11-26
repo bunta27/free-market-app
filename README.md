@@ -78,14 +78,14 @@ Password: password
 
 #### メール送信設定（一例：MailHog 使用時）
 
-MAIL_MAILER=smtp
-MAIL_HOST=mailhog
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS="example@example.com"
-MAIL_FROM_NAME="Free Market App"
+  - MAIL_MAILER=smtp
+  - MAIL_HOST=mailhog
+  - MAIL_PORT=1025
+  - MAIL_USERNAME=null
+  - MAIL_PASSWORD=null
+  - MAIL_ENCRYPTION=null
+  - MAIL_FROM_ADDRESS="example@example.com"
+  - MAIL_FROM_NAME="Free Market App"
 
 ### 決済機能（Stripe）
 
