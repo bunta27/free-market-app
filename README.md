@@ -67,3 +67,49 @@
 ■ 一般ユーザー  
 Email: demo@example.com  
 Password: password
+
+## 追加機能（応用実装）
+
+### メール認証機能
+
+- 新規会員登録時にメール認証用のメールを送信
+- 初回ログイン時もメール認証が完了していない場合は、認証画面へリダイレクト
+- 開発環境では MailHog を用いてメール内容を確認
+
+#### メール送信設定（一例：MailHog 使用時）
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="example@example.com"
+MAIL_FROM_NAME="Free Market App"
+
+### 決済機能（Stripe）
+
+- 「コンビニ支払い」「カード支払い」を選択して「購入する」ボタンを押下すると、Stripe の決済画面に遷移
+- 決済成功時に購入処理が行われ、購入情報が `sold_items` テーブルに保存される
+- キャンセル時はキャンセル用画面（または詳細ページ）に遷移  
+  （※ 実際の API キーなどは `.env` に設定してください）
+
+### マイページ・その他機能
+
+- マイページから以下を確認可能
+  - 出品した商品一覧
+  - 購入した商品一覧
+- プロフィール編集機能（氏名・郵便番号・住所・建物名）
+- いいね機能・コメント機能・商品検索機能を実装
+
+### 開発後のクリーンアップ（概要）
+
+- 不要になったコントローラ / ビュー / ルート定義の削除
+- 使用していない画像・CSS・JS の削除
+- 使わないマイグレーションファイルの整理
+- オートロードの最適化
+
+```bash
+composer dump-autoload -o
+::contentReference[oaicite:0]{index=0}
