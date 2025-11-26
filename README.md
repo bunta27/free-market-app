@@ -78,7 +78,6 @@ Password: password
 
 #### メール送信設定（一例：MailHog 使用時）
 
-```env
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
 MAIL_PORT=1025
