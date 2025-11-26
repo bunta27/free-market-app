@@ -7,6 +7,10 @@
     @unless (request()->routeIs('login') || request()->routeIs('register'))
         <div class="header__search">
             <form action="{{ route('items.search') }}" method="get">
+                @if (request('page') === 'mylist')
+                    <input type="hidden" name="page" value="mylist">
+                @endif
+
                 <input type="text" name="query" placeholder="なにをお探しですか？" value="{{ request('query') }}">
             </form>
         </div>

@@ -12,10 +12,20 @@
 <div class="border">
     <ul class="border__list">
         <li class="border__tab {{ request('page') !== 'mylist' ? 'border__tab--active' : '' }}">
-            <a href="/">おすすめ</a>
+            <a href="{{ route('items.index', [
+                'page'  => null,
+                'query' => request('query'),
+            ]) }}">
+                おすすめ
+            </a>
         </li>
         <li class="border__tab {{ request('page') === 'mylist' ? 'border__tab--active' : '' }}">
-            <a href="/?page=mylist&query={{ request('query') }}">マイリスト</a>
+            <a href="{{ route('items.index', [
+                'page'  => 'mylist',
+                'query' => request('query'),
+            ]) }}">
+                マイリスト
+            </a>
         </li>
     </ul>
 </div>

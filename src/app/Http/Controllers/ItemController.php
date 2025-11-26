@@ -15,21 +15,53 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->page == 'mylist') {
-            $items = Like::where('user_id', Auth::id())->get()->map(function ($like_item) {
-                return $like_item->item;
-            });
+        $tab   = $request->query('page');
+        $query = $request->query('query');
+
+        if ($tab === 'mylist') {
+            $items = Item::whereHas('likes', function ($likeQuery) {
+                    $likeQuery->where('user_id', Auth::id());
+                })
+                ->when($query, function ($q) use ($query) {
+                    $q->where(function ($q2) use ($query) {
+                        $q2->where('name', 'like', "%{$query}%")
+                        ->orWhere('description', 'like', "%{$query}%");
+                    });
+                })
+                ->paginate(20)
+                ->appends([
+                    'page'  => $tab,
+                    'query' => $query,
+                ]);
         } else {
-            $items = Item::where('user_id', '<>', Auth::id())->get();
+            $items = Item::where('user_id', '<>', Auth::id())
+                ->when($query, function ($q) use ($query) {
+                    $q->where(function ($q2) use ($query) {
+                        $q2->where('name', 'like', "%{$query}%")
+                        ->orWhere('description', 'like', "%{$query}%");
+                    });
+                })
+                ->paginate(20)
+                ->appends([
+                    'page'  => $tab,
+                    'query' => $query,
+                ]);
         }
-        return view('index', compact('items'));
+
+        return view('index', [
+            'items' => $items,
+            'query' => $query,
+            'tab'   => $tab,
+        ]);
     }
 
     public function detail(Item $item)
     {
         $item->load('categories:id,category', 'condition:id,condition', 'user:id,name');
+
         return view('detail', compact('item'));
     }
+
 
     public function sellView()
     {
@@ -65,16 +97,12 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
-        $q = $request->input('query');
+        $query = $request->input('query');
+        $tab   = $request->input('page');
 
-        $items = Item::query()
-            ->when($q, function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")->orWhere('description', 'like', "%{$q}%");
-            })
-            ->paginate(20);
-        return view('index', [
-            'items' => $items,
-            'query' => $q,
+        return redirect()->route('items.index', [
+            'page'  => $tab,
+            'query' => $query,
         ]);
     }
 }

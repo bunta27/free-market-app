@@ -33,10 +33,10 @@
                 </div>
 
                 <div class="custom-select" data-target="payment">
-                    <select name="payment" id="payment" class="custom-select__real">
+                    <select name="payment_select" id="payment-select" class="custom-select__real">
                         <option value="" selected disabled>選択してください</option>
-                        <option value="1">コンビニ支払い</option>
-                        <option value="2">カード支払い</option>
+                        <option value="konbini">コンビニ支払い</option>
+                        <option value="card">カード支払い</option>
                     </select>
 
                     <button type="button" class="custom-select__trigger">
@@ -47,8 +47,8 @@
                     </button>
 
                     <ul class="custom-select__options">
-                        <li class="custom-select__option" data-value="1">コンビニ支払い</li>
-                        <li class="custom-select__option" data-value="2">カード支払い</li>
+                        <li class="custom-select__option" data-value="konbini">コンビニ支払い</li>
+                        <li class="custom-select__option" data-value="card">カード支払い</li>
                     </ul>
                 </div>
             </div>
@@ -86,7 +86,7 @@
             </div>
             <form action="{{ route('purchase.execute', ['item_id' => $item->id]) }}" method="post">
                 @csrf
-                <input type="hidden" name="payment" id="payment-hidden" value="">
+                <input type="hidden" name="payment_method" id="payment-hidden" value="">
 
                 @if($item->sold())
                     <button type="submit" class="btn disable" disabled>売り切れました</button>
@@ -96,6 +96,7 @@
                     <button type="submit" class="btn">購入する</button>
                 @endif
             </form>
+
         </div>
     </div>
 
@@ -108,6 +109,7 @@
             const options      = optionsBox.querySelectorAll('.custom-select__option');
             const realSelect   = customSelect.querySelector('.custom-select__real');
             const methodLabel  = document.getElementById('method');
+            const hiddenPayment  = document.getElementById('payment-hidden');
 
             trigger.addEventListener('click', function () {
                 customSelect.classList.toggle('is-open');
@@ -127,6 +129,10 @@
 
                     if (methodLabel) {
                         methodLabel.textContent = text;
+                    }
+
+                    if (hiddenPayment) {
+                        hiddenPayment.value = value;
                     }
 
                     customSelect.classList.remove('is-open');

@@ -36,6 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/address/{item_id}',  [PurchaseController::class, 'address'])->middleware('purchase')->name('purchase.address');
     Route::post('/purchase/address/{item_id}',  [PurchaseController::class, 'updateAddress'])->middleware('purchase')->name('purchase.address.update');
 
+    Route::get('/purchase/{item_id}/success', [PurchaseController::class, 'success'])->middleware('purchase')->name('purchase.success');
+    Route::get('/purchase/{item_id}/cancel',  [PurchaseController::class, 'cancel'])->middleware('purchase')->name('purchase.cancel');
+
     Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
     Route::get('/mypage/profile', [UserController::class, 'profile'])->name('mypage.profile');
     Route::post('/mypage/profile', [UserController::class, 'updateProfile'])->name('profile.update');

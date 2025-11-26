@@ -12,7 +12,7 @@ use App\Models\Item;
 use App\Models\Like;
 use App\Models\Comment;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
