@@ -22,7 +22,7 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/search', [ItemController::class, 'search'])->middleware('auth')->name('items.search');
 Route::get('/items/{item}', [ItemController::class, 'detail'])->name('items.detail');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/sell',  [ItemController::class, 'sellView'])->name('items.sell.view');
     Route::post('/sell', [ItemController::class, 'sellCreate'])->name('items.sell.create');
 
