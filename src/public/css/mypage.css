@@ -127,7 +127,7 @@
     line-height: 30px;
 }
 
-@media (max-width: 850px) {
+@media screen and (max-width: 850px) {
     .container {
         margin: 40px auto 60px;
         padding: 0 16px;

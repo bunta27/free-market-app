@@ -10,7 +10,6 @@ use App\Models\Category;
 use App\Models\CategoryItem;
 use App\Models\Like;
 use App\Models\Condition;
-use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -20,8 +19,7 @@ class ItemController extends Controller
             $items = Like::where('user_id', Auth::id())->get()->map(function ($like_item) {
                 return $like_item->item;
             });
-        }
-        else {
+        } else {
             $items = Item::where('user_id', '<>', Auth::id())->get();
         }
         return view('index', compact('items'));
@@ -42,18 +40,12 @@ class ItemController extends Controller
 
     public function sellCreate(ItemRequest $request)
     {
-        $img = $request->file('img_url');
-
-        try {
-            $img_path = $request->file('img_url')->store('items', 'public');
-
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $img_path = $request->file('img_url')->store('items', 'public');
 
         $item = Item::create([
             'name' => $request->name,
             'price' => $request->price,
+            'brand' => $request->brand,
             'description' => $request->description,
             'img_url' => $img_path,
             'condition_id' => $request->condition_id,

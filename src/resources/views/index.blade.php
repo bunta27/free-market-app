@@ -15,7 +15,7 @@
             <a href="/">おすすめ</a>
         </li>
         <li class="border__tab {{ request('page') === 'mylist' ? 'border__tab--active' : '' }}">
-            <a href="/?page=mylist">マイリスト</a>
+            <a href="/?page=mylist&query={{ request('query') }}">マイリスト</a>
         </li>
     </ul>
 </div>

@@ -38,7 +38,7 @@
             @enderror
 
         <label for="postcode" class="form__label">郵便番号</label>
-        <input type="postcode" name="postcode" id="postcode" class="form__input" value="{{ $profile ? $profile->postcode : '' }}">
+        <input type="text" name="postcode" id="postcode" class="form__input" value="{{ $profile ? $profile->postcode : '' }}">
             @error('postcode')
                 <div class="form__error">{{ $message }}</div>
             @enderror

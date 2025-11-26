@@ -13,6 +13,7 @@ class Item extends Model
     protected $fillable = [
         'name',
         'price',
+        'brand',
         'description',
         'img_url',
         'user_id',
@@ -36,7 +37,7 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_items');
+        return $this->belongsToMany(Category::class, 'category_items', 'item_id', 'category_id');
     }
 
     public function likes()
@@ -53,7 +54,7 @@ class Item extends Model
         return $this->likes()
             ->where('user_id', Auth::id())
             ->exists();
-}
+    }
 
     public function comments()
     {

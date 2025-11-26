@@ -6,13 +6,12 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 use App\Models\Profile;
 use App\Models\SoldItem;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    public function index($item_id, Request $request)
+    public function index($item_id)
     {
         $item = Item::findOrFail($item_id);
         $user = Auth::user();
@@ -24,7 +23,7 @@ class PurchaseController extends Controller
         return view('purchase', compact('item', 'user', 'profile'));
     }
 
-    public function purchase($item_id, Request $request)
+    public function purchase($item_id)
     {
         $user = Auth::user();
         $item = Item::with('soldItem')->findOrFail($item_id);
@@ -38,13 +37,6 @@ class PurchaseController extends Controller
             return redirect()
                 ->route('items.detail', ['item' => $item->id]);
         }
-
-        DB::transaction(function () use ($item) {
-            SoldItem::create([
-                'item_id'  => $item->id,
-                'user_id' => Auth::id(),
-            ]);
-        });
 
         $profile = Profile::firstOrCreate(
             ['user_id' => $user->id],

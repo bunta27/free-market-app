@@ -93,19 +93,6 @@
     z-index: 101;
 }
 
-@media screen and (max-width: 1399px) {
-    .items {
-        grid-template-columns: repeat(3, minmax(200px, 1fr));
-        gap: 24px 16px;
-        max-width: 100%;
-        margin: 30px auto;
-    }
-
-    .item__img {
-        height: 230px;
-    }
-}
-
 @media screen and (max-width: 850px) {
     .items {
         grid-template-columns: repeat(2, minmax(160px, 1fr));

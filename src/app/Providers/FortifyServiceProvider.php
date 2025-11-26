@@ -36,6 +36,7 @@ class FortifyServiceProvider extends ServiceProvider
             )->validate();
 
             $user = User::where('email', $request->email)->first();
+
             if ($user && Hash::check($request->password, $user->password)) {
                 return $user;
             }
@@ -54,12 +55,12 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(RegisterResponse::class, function () {
-        return new class implements RegisterResponse {
-            public function toResponse($request)
-            {
-                return redirect()->route('mypage.profile');
-            }
-        };
+            return new class implements RegisterResponse {
+                public function toResponse($request)
+                {
+                    return redirect()->route('mypage.profile');
+                }
+            };
         });
 
         RateLimiter::for('login', function (Request $request) {
@@ -68,7 +69,7 @@ class FortifyServiceProvider extends ServiceProvider
                 return Limit::perMinute(1000)->by($request->ip());
             }
             return Limit::perMinute(5)->by(
-                strtolower($request->input('email')).'|'.$request->ip()
+                strtolower($request->input('email')) . '|' . $request->ip()
             );
         });
     }

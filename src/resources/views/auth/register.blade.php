@@ -23,7 +23,7 @@
 
         <div class="form__group">
             <label for="email" class="form__label">メールアドレス</label>
-            <input type="email" name="email" id="email" class="form__input">
+            <input type="text" name="email" id="email" class="form__input">
                 @error('email')
                     <div class="form__error">{{ $message }}</div>
                 @enderror

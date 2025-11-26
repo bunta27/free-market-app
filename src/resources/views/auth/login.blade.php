@@ -11,14 +11,14 @@
 @include('components.header')
 <div class="container">
     <h1 class="container__title">ログイン</h1>
-    <form action="{{ route('login') }}" method="post" class="authenticate">
+    <form action="{{ route('login') }}" method="post" class="authenticate" novalidate>
         @csrf
         <div class="form__group">
             <label for="email" class="form__label">メールアドレス</label>
             <input type="text" name="email" id="email" class="form__input">
-                @error('email')
-                    <div class="form__error">{{ $message }}</div>
-                @enderror
+                @if($errors->has('email'))
+                    <div class="form__error">{{ $errors->first('email') }}</div>
+                @endif
         </div>
 
         <div class="form__group">

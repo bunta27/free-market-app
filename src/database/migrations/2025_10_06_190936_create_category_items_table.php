@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CategoryItemsTable extends Migration
+class CreateCategoryItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -29,6 +29,12 @@ class CategoryItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_item');
+        Schema::table('category_items', function (Blueprint $table) {
+            $table->dropForeign(['item_id']);
+            $table->dropForeign(['category_id']);
+        });
+
+        Schema::dropIfExists('category_items');
     }
+
 }

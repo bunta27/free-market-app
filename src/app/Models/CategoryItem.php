@@ -11,9 +11,9 @@ class CategoryItem extends Model
 
     protected $table = 'category_items';
 
-    protected $primaryKey = ['item_id', 'category_id'];
-
+    protected $primaryKey = null;
     public $incrementing = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'item_id',
@@ -22,11 +22,11 @@ class CategoryItem extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function item()
     {
-        return $this->belongsToMany(Item::class, 'category_items');
+        return $this->belongsTo(Item::class, 'item_id');
     }
 }

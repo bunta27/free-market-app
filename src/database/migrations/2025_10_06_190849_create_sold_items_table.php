@@ -16,6 +16,7 @@ class CreateSoldItemsTable extends Migration
         Schema::create('sold_items', function (Blueprint $table) {
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unique(['item_id', 'user_id']);
             $table->string('sending_postcode', 10)->nullable();
             $table->string('sending_address', 255)->nullable();
             $table->string('sending_building', 255)->nullable();

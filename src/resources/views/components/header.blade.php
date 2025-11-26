@@ -12,6 +12,14 @@
         </div>
 
         <nav class="header__nav">
+
+            <input type="checkbox" id="nav-toggle" class="header__nav-toggle">
+            <label for="nav-toggle" class="header__nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
             <ul class="header__nav-list">
                 @auth
                     <li>
@@ -34,9 +42,9 @@
 
                 <li class="header__btn">
                     @auth
-                        <a href="{{ route('items.sell.view') }}">出品する</a>
+                        <a href="{{ route('items.sell.view') }}">出品</a>
                     @else
-                        <a href="{{ route('login') }}">出品する</a>
+                        <a href="{{ route('login') }}">出品</a>
                     @endauth
                 </li>
             </ul>

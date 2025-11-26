@@ -2,9 +2,19 @@
 
 return [
 
-    'custom' => [
-        'email' => ['required' => 'メールアドレスを入力してください'],
-        'password' => ['required' => 'パスワードを入力してください',],
+    'required' => ':attributeを入力してください',
+    'email'    => 'メールアドレスはメール形式で入力してください',
+
+    'min' => [
+        'string' => ':attributeは:min文字以上で入力してください',
     ],
 
+    'confirmed' => ':attributeが確認用と一致しません',
+
+    'attributes' => [
+        'name'                  => 'お名前',
+        'email'                 => 'メールアドレス',
+        'password'              => 'パスワード',
+        'password_confirmation' => 'パスワード',
+    ],
 ];

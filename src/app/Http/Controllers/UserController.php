@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Item;
-use App\Models\SoldItem;
 use App\Http\Requests\ProfileRequest;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -32,7 +30,7 @@ class UserController extends Controller
         if ($request->hasFile('img_url')) {
             $path = $request->file('img_url')->store('profiles', 'public');
         } else {
-            $path = $profile->img_url;;
+            $path = $profile->img_url;
         }
 
         $profile->update([
@@ -43,7 +41,7 @@ class UserController extends Controller
         ]);
 
         $user->update([
-        'name' => $request->name,
+            'name' => $request->name,
         ]);
 
         return redirect()->route('mypage');
@@ -52,12 +50,12 @@ class UserController extends Controller
     public function mypage(Request $request)
     {
         $user = Auth::user();
-        $tab  = $request->query('page', 'sell');
+        $tab = $request->query('page', 'sell');
 
         if ($tab === 'buy') {
             $items = Item::whereHas('soldItem', function ($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })->get();
+                $q->where('user_id', $user->id);
+            })->get();
         } else {
             $items = Item::where('user_id', $user->id)->get();
         }

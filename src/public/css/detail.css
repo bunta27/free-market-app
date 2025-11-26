@@ -133,7 +133,7 @@
 }
 
 .item__like-btn svg,
-.item__comment svg {
+.item__comment-btn svg {
     vertical-align: middle;
     color: #4b4646;
 }

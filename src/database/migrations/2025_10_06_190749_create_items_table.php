@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('price');
+            $table->string('brand')->nullable();
             $table->text('description');
             $table->string('img_url', 512);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
@@ -32,6 +33,11 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['condition_id']);
+        });
+
         Schema::dropIfExists('items');
     }
 }
