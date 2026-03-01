@@ -11,7 +11,7 @@ use App\Models\CategoryItem;
 use App\Models\Like;
 use App\Models\Condition;
 
-class ItemController extends Controller
+class LikeController extends Controller
 {
     public function index(Request $request)
     {
@@ -31,6 +31,24 @@ class ItemController extends Controller
         return view('detail', compact('item'));
     }
 
+    public function create($item_id)
+    {
+        Like::firstOrCreate([
+            'user_id' => Auth::id(),
+            'item_id' => $item_id,
+        ]);
+
+        return back();
+    }
+
+    public function delete($item_id)
+    {
+        Like::where('user_id', Auth::id())
+            ->where('item_id', $item_id)
+            ->deleate();
+
+            return back();
+    }
     public function sellView()
     {
         $conditions = Condition::all();
