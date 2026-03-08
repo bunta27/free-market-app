@@ -35,7 +35,11 @@
                     <form action="/item/{{ $item->liked() ? 'unlike' : 'like' }}/{{ $item->id }}" method="post" class="item__like">
                         @csrf
                         <button type="submit" class="item__like-btn {{ $item->liked() ? 'liked' : '' }}">
-                            @include('components.svg.heart')
+                            @if ($item->liked())
+                                @include('components.svg.heart-filled')
+                            @else
+                                @include('components.svg.heart')
+                            @endif
                         </button>
                         <span class="like-count">{{ $item->likes->count() }}</span>
                     </form>

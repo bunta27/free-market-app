@@ -111,6 +111,7 @@
 .item__comment-btn {
     width: 40px;
     height: 40px;
+    border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -122,11 +123,6 @@
     padding-top: 6px;
 }
 
-.item__like-btn.liked {
-    border-color: #e63946;
-    color: #e63946;
-}
-
 .item__like-btn.disabled {
     cursor: not-allowed;
     pointer-events: none;
@@ -134,8 +130,31 @@
 
 .item__like-btn svg,
 .item__comment-btn svg {
-    vertical-align: middle;
-    color: #4b4646;
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.item__like-btn svg path {
+    fill: #4B4646;
+    stroke: #4B4646;
+}
+
+.item__like-btn.liked svg path {
+    fill: #e63946;
+    stroke: #e63946;
+}
+
+.item__comment-btn svg path {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+.like-count,
+.comment__count {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .icon-heart {

@@ -45,7 +45,7 @@ class LikeController extends Controller
     {
         Like::where('user_id', Auth::id())
             ->where('item_id', $item_id)
-            ->deleate();
+            ->delete();
 
             return back();
     }
