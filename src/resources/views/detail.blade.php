@@ -69,11 +69,15 @@
         @elseif($item->mine())
             <a href="#" class="btn item__purchase disable">購入できません</a>
         @else
-            <a href="{{ route('purchase.index', ['item_id' => $item->id]) }}" class="btn item__purchase">購入手続きへ</a>
+            @auth
+                <a href="{{ route('purchase.index', ['item_id' => $item->id]) }}" class="btn item__purchase">購入手続きへ</a>
+            @else
+                <a href="{{ route('login') }}" class="btn item__purchase">購入手続きへ</a>
+            @endauth
         @endif
             <h2 class="item__section">商品説明</h2>
             <p class="item__description">{{ $item->description }}</p>
-            <h3 class="item__section">商品の情報</h3>
+            <h2 class="item__section">商品の情報</h2>
             <table class="item__table">
                 <tr>
                     <th>カテゴリー</th>
@@ -96,7 +100,7 @@
             </table>
 
             <div class="comment__section" id="comment">
-                <h3>コメント({{ $item->getComments()->count() }})</h3>
+                <h2>コメント({{ $item->getComments()->count() }})</h2>
                 <div class="comments">
                     @foreach($item->getComments() as $comment)
                         <div class="comment">
@@ -126,9 +130,9 @@
                         <button type="submit" class="comment__btn btn">コメントを送信する</button>
                     </form>
                 @else
-                    <div>
+                    <div class="comment__form">
                         <p class="comment__form-title">商品へのコメント</p>
-                        <a href="{{ route('login') }}" class="comment__btn btn">ログイン</a>
+                        <a href="{{ route('login') }}" class="comment__btn btn">ログインしてコメントする</a>
                     </div>
                 @endauth
             </div>

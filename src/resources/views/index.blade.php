@@ -13,19 +13,25 @@
     <ul class="border__list">
         <li class="border__tab {{ request('page') !== 'mylist' ? 'border__tab--active' : '' }}">
             <a href="{{ route('items.index', [
-                'page'  => null,
                 'query' => request('query'),
             ]) }}">
                 おすすめ
             </a>
         </li>
+
         <li class="border__tab {{ request('page') === 'mylist' ? 'border__tab--active' : '' }}">
-            <a href="{{ route('items.index', [
-                'page'  => 'mylist',
-                'query' => request('query'),
-            ]) }}">
-                マイリスト
-            </a>
+            @auth
+                <a href="{{ route('items.index', [
+                    'page'  => 'mylist',
+                    'query' => request('query'),
+                ]) }}">
+                    マイリスト
+                </a>
+            @else
+                <a href="{{ route('login') }}">
+                    マイリスト
+                </a>
+            @endauth
         </li>
     </ul>
 </div>

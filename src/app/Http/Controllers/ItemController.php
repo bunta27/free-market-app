@@ -8,7 +8,6 @@ use App\Http\Requests\ItemRequest;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\CategoryItem;
-use App\Models\Like;
 use App\Models\Condition;
 
 class ItemController extends Controller
@@ -19,34 +18,54 @@ class ItemController extends Controller
         $query = $request->query('query');
 
         if ($tab === 'mylist') {
-            $items = Item::where('user_id', '<>', Auth::id())
-            ->whereHas('likes', function ($likeQuery) {
-                    $likeQuery->where('user_id', Auth::id());
-                })
-                ->when($query, function ($q) use ($query) {
-                    $q->where(function ($q2) use ($query) {
-                        $q2->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                    });
-                })
-                ->paginate(20)
-                ->appends([
-                    'page'  => $tab,
-                    'query' => $query,
-                ]);
+            if (!Auth::check()) {
+                $items = Item::whereRaw('1 = 0')
+                    ->when($query, function ($q) use ($query) {
+                        $q->where(function ($q2) use ($query) {
+                            $q2->where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%");
+                        });
+                    })
+                    ->paginate(20)
+                    ->appends([
+                        'page'  => $tab,
+                        'query' => $query,
+                    ]);
+            } else {
+                $items = Item::where('user_id', '<>', Auth::id())
+                    ->whereHas('likes', function ($likeQuery) {
+                        $likeQuery->where('user_id', Auth::id());
+                    })
+                    ->when($query, function ($q) use ($query) {
+                        $q->where(function ($q2) use ($query) {
+                            $q2->where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%");
+                        });
+                    })
+                    ->paginate(20)
+                    ->appends([
+                        'page'  => $tab,
+                        'query' => $query,
+                    ]);
+            }
         } else {
-            $items = Item::where('user_id', '<>', Auth::id())
-                ->when($query, function ($q) use ($query) {
-                    $q->where(function ($q2) use ($query) {
-                        $q2->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                    });
-                })
-                ->paginate(20)
-                ->appends([
-                    'page'  => $tab,
-                    'query' => $query,
-                ]);
+            $itemsQuery = Item::query();
+
+            if (Auth::check()) {
+                $itemsQuery->where('user_id', '<>', Auth::id());
+            }
+
+            if ($query) {
+                $itemsQuery->where(function ($q2) use ($query) {
+                    $q2->where('name', 'like', "%{$query}%")
+                    ->orWhere('description', 'like', "%{$query}%");
+                });
+            }
+
+            $items = $itemsQuery->paginate(20)->appends([
+                'page'  => $tab,
+                'query' => $query,
+            ]);
         }
 
         return view('index', [
@@ -62,7 +81,6 @@ class ItemController extends Controller
 
         return view('detail', compact('item'));
     }
-
 
     public function sellView()
     {
@@ -93,7 +111,6 @@ class ItemController extends Controller
         }
 
         return redirect()->route('items.detail', ['item' => $item->id]);
-
     }
 
     public function search(Request $request)
@@ -102,34 +119,54 @@ class ItemController extends Controller
         $tab   = $request->input('page');
 
         if ($tab === 'mylist') {
-            $items = Item::where('user_id', '<>', Auth::id())
-                ->whereHas('likes', function ($likeQuery) {
-                    $likeQuery->where('user_id', Auth::id());
-                })
-                ->when($query, function ($q) use ($query) {
-                    $q->where(function ($q2) use ($query) {
-                        $q2->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                    });
-                })
-                ->paginate(20)
-                ->appends([
-                    'page'  => $tab,
-                    'query' => $query,
-                ]);
+            if (!Auth::check()) {
+                $items = Item::whereRaw('1 = 0')
+                    ->when($query, function ($q) use ($query) {
+                        $q->where(function ($q2) use ($query) {
+                            $q2->where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%");
+                        });
+                    })
+                    ->paginate(20)
+                    ->appends([
+                        'page'  => $tab,
+                        'query' => $query,
+                    ]);
+            } else {
+                $items = Item::where('user_id', '<>', Auth::id())
+                    ->whereHas('likes', function ($likeQuery) {
+                        $likeQuery->where('user_id', Auth::id());
+                    })
+                    ->when($query, function ($q) use ($query) {
+                        $q->where(function ($q2) use ($query) {
+                            $q2->where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%");
+                        });
+                    })
+                    ->paginate(20)
+                    ->appends([
+                        'page'  => $tab,
+                        'query' => $query,
+                    ]);
+            }
         } else {
-            $items = Item::where('user_id', '<>', Auth::id())
-                ->when($query, function ($q) use ($query) {
-                    $q->where(function ($q2) use ($query) {
-                        $q2->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                    });
-                })
-                ->paginate(20)
-                ->appends([
-                    'page'  => $tab,
-                    'query' => $query,
-                ]);
+            $itemsQuery = Item::query();
+
+            if (Auth::check()) {
+                $itemsQuery->where('user_id', '<>', Auth::id());
+            }
+
+            if ($query) {
+                $itemsQuery->where(function ($q2) use ($query) {
+                    $q2->where('name', 'like', "%{$query}%")
+                    ->orWhere('description', 'like', "%{$query}%");
+                });
+            }
+
+            $items = $itemsQuery->paginate(20)->appends([
+                'page'  => $tab,
+                'query' => $query,
+            ]);
         }
 
         return view('index', [
