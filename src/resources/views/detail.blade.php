@@ -24,7 +24,7 @@
         </div>
 
         <div class="item__info">
-            <h2 class="item__name">{{ $item->name }}</h2>
+            <h1 class="item__name">{{ $item->name }}</h1>
             <p class="item__brand">{{ $item->brand_name ?? '' }}</p>
             <p class="item__price">
                 <span class="price-main">¥{{ number_format($item->price) }}</span>
@@ -52,9 +52,15 @@
                     </div>
                 @endif
                 <div class="item__comment">
-                    <a href="#comment" class="item__comment-btn">
-                        @include('components.svg.comment')
-                    </a>
+                    @auth
+                        <a href="#comment" class="item__comment-btn">
+                            @include('components.svg.comment')
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="item__comment-btn">
+                            @include('components.svg.comment')
+                        </a>
+                    @endauth
                     <p class="comment__count">{{ $item->getComments()->count() }}</p>
                 </div>
             </div>
@@ -65,7 +71,7 @@
         @else
             <a href="{{ route('purchase.index', ['item_id' => $item->id]) }}" class="btn item__purchase">購入手続きへ</a>
         @endif
-            <h3 class="item__section">商品説明</h3>
+            <h2 class="item__section">商品説明</h2>
             <p class="item__description">{{ $item->description }}</p>
             <h3 class="item__section">商品の情報</h3>
             <table class="item__table">
@@ -108,16 +114,23 @@
                         </div>
                     @endforeach
                 </div>
-                <form action="{{ route('comments.create', ['item_id' => $item->id]) }}" method="post" class="comment__form">
-                    @csrf
-                    <p class="comment__form-title">商品へのコメント</p>
-                    <textarea name="comment" class="comment__form-textarea"></textarea>
-                        @error('comment')
-                            <div class="form__error">{{ $message }}</div>
-                        @enderror
+                @auth
+                    <form action="{{ route('comments.create', ['item_id' => $item->id]) }}" method="post" class="comment__form">
+                        @csrf
+                        <p class="comment__form-title">商品へのコメント</p>
+                        <textarea name="comment" class="comment__form-textarea"></textarea>
+                            @error('comment')
+                                <div class="form__error">{{ $message }}</div>
+                            @enderror
 
-                    <button type="submit" class="comment__btn btn">コメントを送信する</button>
-                </form>
+                        <button type="submit" class="comment__btn btn">コメントを送信する</button>
+                    </form>
+                @else
+                    <div>
+                        <p class="comment__form-title">商品へのコメント</p>
+                        <a href="{{ route('login') }}" class="comment__btn btn">ログイン</a>
+                    </div>
+                @endauth
             </div>
         </div>
     </div>
