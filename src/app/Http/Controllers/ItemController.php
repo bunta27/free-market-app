@@ -19,7 +19,8 @@ class ItemController extends Controller
         $query = $request->query('query');
 
         if ($tab === 'mylist') {
-            $items = Item::whereHas('likes', function ($likeQuery) {
+            $items = Item::where('user_id', '<>', Auth::id())
+            ->whereHas('likes', function ($likeQuery) {
                     $likeQuery->where('user_id', Auth::id());
                 })
                 ->when($query, function ($q) use ($query) {
