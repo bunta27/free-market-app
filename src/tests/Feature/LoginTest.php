@@ -54,7 +54,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_正しい情報ならログイン成功してマイページにリダイレクトされる()
+    public function test_正しい情報ならログイン成功してプロフィール画面にリダイレクトされる()
     {
         $user = User::factory()->create([
             'email'    => 'test@example.com',
@@ -67,7 +67,6 @@ class LoginTest extends TestCase
         ]);
 
         $this->assertAuthenticatedAs($user);
-
-        $response->assertRedirect('/');
+        $response->assertRedirect('/mypage/profile');
     }
 }

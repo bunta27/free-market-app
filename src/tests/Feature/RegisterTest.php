@@ -9,8 +9,7 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function 名前未入力の場合はエラーが表示される()
+    public function test_名前未入力の場合はエラーが表示される()
     {
         $response = $this->post('/register', [
             'name' => '',
@@ -22,8 +21,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['name']);
     }
 
-    /** @test */
-    public function メール未入力の場合はエラーが表示される()
+    public function test_メール未入力の場合はエラーが表示される()
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
@@ -35,8 +33,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['email']);
     }
 
-    /** @test */
-    public function パスワード未入力ならエラー()
+    public function test_パスワード未入力ならエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
@@ -48,8 +45,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function パスワードが短すぎるとエラー()
+    public function test_パスワードが短すぎるとエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
@@ -61,8 +57,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function パスワード確認と一致しないとエラー()
+    public function test_パスワード確認と一致しないとエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
@@ -74,8 +69,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function 正しい入力なら登録成功してプロフィール設定へリダイレクト()
+    public function test_正しい入力なら登録成功して認証案内画面へリダイレクト()
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
@@ -88,6 +82,6 @@ class RegisterTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        $response->assertRedirect('/mypage/profile');
+        $response->assertRedirect('/email/verify');
     }
 }

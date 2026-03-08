@@ -16,6 +16,7 @@ class ItemSearchTest extends TestCase
     public function test_商品名で部分一致検索ができる()
     {
         $user = User::factory()->create();
+        $seller = User::factory()->create();
 
         $condition = new Condition();
         $condition->condition = '新品';
@@ -26,7 +27,7 @@ class ItemSearchTest extends TestCase
         $target->price        = 2000;
         $target->description  = 'PHP の基礎を学べる本';
         $target->img_url      = 'items/php-book.jpg';
-        $target->user_id      = $user->id;
+        $target->user_id      = $seller->id;
         $target->condition_id = $condition->id;
         $target->save();
 
@@ -35,22 +36,21 @@ class ItemSearchTest extends TestCase
         $other->price        = 2500;
         $other->description  = 'JS の本';
         $other->img_url      = 'items/js-book.jpg';
-        $other->user_id      = $user->id;
+        $other->user_id      = $seller->id;
         $other->condition_id = $condition->id;
         $other->save();
 
         $response = $this->actingAs($user)->get(route('items.search', ['query' => 'PHP']));
 
         $response->assertStatus(200);
-
         $response->assertSee('PHP入門本');
-
         $response->assertDontSee('JavaScript完全ガイド');
     }
 
     public function test_検索キーワードがマイリストでも保持される()
     {
         $user = User::factory()->create();
+        $seller = User::factory()->create();
 
         $condition = new Condition();
         $condition->condition = '中古';
@@ -61,7 +61,7 @@ class ItemSearchTest extends TestCase
         $item->price        = 3000;
         $item->description  = 'テスト用の商品';
         $item->img_url      = 'items/test-item.jpg';
-        $item->user_id      = $user->id;
+        $item->user_id      = $seller->id;
         $item->condition_id = $condition->id;
         $item->save();
 
@@ -71,7 +71,10 @@ class ItemSearchTest extends TestCase
         $like->save();
 
         $responseSearch = $this->actingAs($user)
-            ->get(route('items.search', ['query' => 'テスト']));
+            ->get(route('items.search', [
+                'query' => 'テスト',
+                'page'  => 'mylist',
+            ]));
 
         $responseSearch->assertStatus(200);
         $responseSearch->assertSee('テスト');
@@ -80,7 +83,7 @@ class ItemSearchTest extends TestCase
             ->get('/?page=mylist&query=テスト');
 
         $responseMylist->assertStatus(200);
-
         $responseMylist->assertSee('テスト');
+        $responseMylist->assertSee('テスト商品');
     }
 }

@@ -17,6 +17,7 @@ class MyListTest extends TestCase
     public function test_いいねした商品だけが表示される()
     {
         $user = User::factory()->create();
+        $seller = User::factory()->create();
 
         $condition = new Condition();
         $condition->condition = '新品';
@@ -27,7 +28,7 @@ class MyListTest extends TestCase
         $likedItem->price        = 3000;
         $likedItem->description  = 'いいね対象の商品';
         $likedItem->img_url      = 'items/test-liked.jpg';
-        $likedItem->user_id      = $user->id;
+        $likedItem->user_id      = $seller->id;
         $likedItem->condition_id = $condition->id;
         $likedItem->save();
 
@@ -36,7 +37,7 @@ class MyListTest extends TestCase
         $notLikedItem->price        = 4000;
         $notLikedItem->description  = 'いいねしていない商品';
         $notLikedItem->img_url      = 'items/test-no-liked.jpg';
-        $notLikedItem->user_id      = $user->id;
+        $notLikedItem->user_id      = $seller->id;
         $notLikedItem->condition_id = $condition->id;
         $notLikedItem->save();
 
@@ -48,15 +49,14 @@ class MyListTest extends TestCase
         $response = $this->actingAs($user)->get('/?page=mylist');
 
         $response->assertStatus(200);
-
         $response->assertSee('いいねした商品');
-
         $response->assertDontSee('いいねしていない商品');
     }
 
     public function test_マイリスト内の購入済み商品には_sold_クラスが付く()
     {
         $user = User::factory()->create();
+        $seller = User::factory()->create();
 
         $condition = new Condition();
         $condition->condition = '中古';
@@ -67,7 +67,7 @@ class MyListTest extends TestCase
         $item->price        = 5000;
         $item->description  = '購入済みテスト';
         $item->img_url      = 'items/test-sold.jpg';
-        $item->user_id      = $user->id;
+        $item->user_id      = $seller->id;
         $item->condition_id = $condition->id;
         $item->save();
 
@@ -87,9 +87,7 @@ class MyListTest extends TestCase
         $response = $this->actingAs($user)->get('/?page=mylist');
 
         $response->assertStatus(200);
-
         $response->assertSee('購入済みいいね商品');
-
         $response->assertSee('sold');
     }
 
@@ -119,5 +117,33 @@ class MyListTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertDontSee('ゲストには見えない商品');
+    }
+
+    public function test_自分が出品した商品はマイリストに表示されない()
+    {
+        $user = User::factory()->create();
+
+        $condition = new Condition();
+        $condition->condition = '新品';
+        $condition->save();
+
+        $myItem = new Item();
+        $myItem->name         = '自分で出品したいいね商品';
+        $myItem->price        = 3000;
+        $myItem->description  = '自分の商品';
+        $myItem->img_url      = 'items/my-liked.jpg';
+        $myItem->user_id      = $user->id;
+        $myItem->condition_id = $condition->id;
+        $myItem->save();
+
+        Like::create([
+            'user_id' => $user->id,
+            'item_id' => $myItem->id,
+        ]);
+
+        $response = $this->actingAs($user)->get('/?page=mylist');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('自分で出品したいいね商品');
     }
 }

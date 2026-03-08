@@ -101,9 +101,41 @@ class ItemController extends Controller
         $query = $request->input('query');
         $tab   = $request->input('page');
 
-        return redirect()->route('items.index', [
-            'page'  => $tab,
+        if ($tab === 'mylist') {
+            $items = Item::where('user_id', '<>', Auth::id())
+                ->whereHas('likes', function ($likeQuery) {
+                    $likeQuery->where('user_id', Auth::id());
+                })
+                ->when($query, function ($q) use ($query) {
+                    $q->where(function ($q2) use ($query) {
+                        $q2->where('name', 'like', "%{$query}%")
+                        ->orWhere('description', 'like', "%{$query}%");
+                    });
+                })
+                ->paginate(20)
+                ->appends([
+                    'page'  => $tab,
+                    'query' => $query,
+                ]);
+        } else {
+            $items = Item::where('user_id', '<>', Auth::id())
+                ->when($query, function ($q) use ($query) {
+                    $q->where(function ($q2) use ($query) {
+                        $q2->where('name', 'like', "%{$query}%")
+                        ->orWhere('description', 'like', "%{$query}%");
+                    });
+                })
+                ->paginate(20)
+                ->appends([
+                    'page'  => $tab,
+                    'query' => $query,
+                ]);
+        }
+
+        return view('index', [
+            'items' => $items,
             'query' => $query,
+            'tab'   => $tab,
         ]);
     }
 }
