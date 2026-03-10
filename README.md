@@ -22,7 +22,7 @@ cd free-market-app
 #### ホスト側(コンテナ外)
 
 ```bash
-cp .env.example .env
+cp src/.env.example src/.env
 ```
 
 - .envを編集（例）
@@ -53,6 +53,7 @@ docker compose up -d --build
 docker compose exec php bash -lc "composer install"
 docker compose exec php bash -lc "php artisan key:generate"
 docker compose exec php bash -lc "php artisan migrate --seed"
+docker compose exec php bash -lc "php artisan storage:link"
 docker compose exec php bash -lc "php artisan test"
 ```
 
@@ -73,6 +74,14 @@ docker compose exec php bash -lc "php artisan test"
 ■ 一般ユーザー  
 Email: demo@example.com  
 Password: password
+
+---
+
+## 注意事項
+- Laravel アプリケーション本体は src ディレクトリにあります。
+- 商品画像を表示する場合は、src/storage/app/public/items/ に画像ファイルを配置してください。
+- 商品画像を表示するには、Seeder に設定しているファイル名と実際の画像ファイル名を一致させる必要があります。
+- Stripe を利用する場合は、別途 .env に API キーの設定が必要です。
 
 ---
 
