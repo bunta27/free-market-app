@@ -4,7 +4,7 @@
 }
 
 .container__title {
-    margin: 48px auto 103px;
+    margin: 48px auto 98px;
     font-size: 36px;
     font-weight: 700;
     text-align: center;
@@ -30,8 +30,7 @@
 
 .form__error {
     color: #ff5555;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 25px;
     margin-top: 0;
 }
 
