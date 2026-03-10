@@ -17,7 +17,7 @@ class CreateSoldItemsTable extends Migration
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->unique(['item_id', 'user_id']);
-            $table->string('sending_postcode', 10)->nullable();
+            $table->string('sending_postcode', 20)->nullable();
             $table->string('sending_address', 255)->nullable();
             $table->string('sending_building', 255)->nullable();
             $table->timestamps();
