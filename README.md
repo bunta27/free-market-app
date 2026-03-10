@@ -13,7 +13,6 @@
 
 ```bash
 git clone git@github.com:bunta27/free-market-app.git
-  
 cd free-market-app
 ```
 
@@ -61,7 +60,8 @@ docker compose exec php bash -lc "php artisan test"
 
 ## 動作確認
 
-セットアップ完了後、http://localhost/ にアクセスしてログイン画面が表示されればOKです。  
+セットアップ完了後、http://localhost/ にアクセスしてトップページ（商品一覧）が表示されればOKです。
+ログイン画面は必要に応じて http://localhost/login から確認できます。
 メール認証の動作確認は MailHog (http://localhost:8025/) で受信できればOKです。
 
 ### URL
