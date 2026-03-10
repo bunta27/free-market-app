@@ -16,23 +16,29 @@
 
         <input type="hidden" name="item_id" value="{{ $item_id }}">
 
-        <label for="postcode" class="form__label">郵便番号</label>
-        <input type="text" name="postcode" id="postcode" class="form__input" value="{{ $user->profile->postcode }}">
+        <div class="form__group form__group--postcode">
+            <label for="postcode" class="form__label">郵便番号</label>
+            <input type="text" name="postcode" id="postcode" class="form__input" value="{{ $user->profile->postcode }}">
             @error('postcode')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
+        </div>
 
-        <label for="address" class="form__label">住所</label>
-        <input type="text" name="address" id="address" class="form__input" value="{{ $user->profile->address }}">
+        <div class="form__group form__group--address">
+            <label for="address" class="form__label">住所</label>
+            <input type="text" name="address" id="address" class="form__input" value="{{ $user->profile->address }}">
             @error('address')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
-
-        <label for="building" class="form__label">建物名</label>
-        <input type="text" name="building" id="building" class="form__input" value="{{ $user->profile->building }}">
+        </div>
+        
+        <div class="form__group form__group--building">
+            <label for="building" class="form__label">建物名</label>
+            <input type="text" name="building" id="building" class="form__input" value="{{ $user->profile->building }}">
             @error('building')
-                {{ $message }}
+                <div class="form__error">{{ $message }}</div>
             @enderror
+        </div>
 
         <button type="submit" class="form__btn">更新する</button>
     </form>
