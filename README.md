@@ -8,43 +8,95 @@
 ---
 
 ## 環境構築
-1. リポジトリ取得
 
-  - git@github.com:bunta27/free-market-app.git (https://github.com/bunta27/free-market-app.git)
-  - cd coachtech/laravel/free-market-app
+### Docker ビルド
 
-2. .env 作成
+```bash
+git clone git@github.com:bunta27/free-market-app.git
+  
+cd free-market-app
+```
 
-  - cp .env.example .env
+### Laravel セットアップ
 
-3. .env を docker-compose のサービス名に合わせて調整
+#### ホスト側(コンテナ外)
 
-  - DB_CONNECTION=mysql
-  - DB_HOST=mysql
-  - DB_PORT=3306
-  - DB_DATABASE=laravel_db
-  - DB_USERNAME=laravel_user
-  - DB_PASSWORD=laravel_pass
+```bash
+cp .env.example .env
+```
 
-4. コンテナ起動（ビルド）
+- .envを編集（例）
 
-  - docker-compose up -d --build
+※ DB設定は必須です。MailHog を使わない場合は `MAIL_*` は環境に合わせて変更/削除してください。
+  
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
 
-5. PHP コンテナに入って依存関係をインストール
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_FROM_ADDRESS="example@example.com"
+MAIL_FROM_NAME="Free Market App"
+```
 
-  - docker-compose exec php bash
-  - composer install
+```bash
+docker compose up -d --build
+```
 
-6. アプリケーションキーを生成
+### コンテナ側（Dockerの中）
+```bash
+docker compose exec php bash -lc "composer install"
+docker compose exec php bash -lc "php artisan key:generate"
+docker compose exec php bash -lc "php artisan migrate --seed"
+docker compose exec php bash -lc "php artisan test"
+```
 
-  - php artisan key:generate
+---
 
-7. マイグレーション & シーディング
+## 動作確認
 
-  - php artisan migrate --seed
+セットアップ完了後、http://localhost/ にアクセスしてログイン画面が表示されればOKです。  
+メール認証の動作確認は MailHog (http://localhost:8025/) で受信できればOKです。
 
-    MySQL が起動しない場合は OS によって設定が必要になることがあります。  
-    各自の PC に合わせて `docker-compose.yml` の設定を調整してください。
+### URL
+
+- 開発環境: http://localhost/  
+- phpMyAdmin: http://localhost:8080/
+- MailHog: http://localhost:8025/ （開発用メール受信確認）
+
+## ログイン情報
+■ 一般ユーザー  
+Email: demo@example.com  
+Password: password
+
+---
+
+## トラブルシューティング
+
+### `storage/logs/laravel.log` や `storage/framework/sessions` で Permission denied が出る場合
+
+```bash
+docker compose exec php bash -lc "
+mkdir -p storage/logs storage/framework/{cache,sessions,views} bootstrap/cache &&
+chown -R www-data:www-data storage bootstrap/cache &&
+chmod -R ug+rwX storage bootstrap/cache
+"
+```
+
+### MySQL が起動しない場合（例: ポート3306競合 / volume不整合）
+まずログを確認してください：
+
+```bash
+docker compose logs mysql
+```
+- ローカルで 3306 を使っているサービスがないか
+
+---
 
 ## 使用技術（実行環境）
 
@@ -58,15 +110,7 @@
 
 <img src="docs/ER.svg" alt="ER図" width="1200">
 
-## URL
-
-  - 開発環境: http://localhost/  
-  - phpMyAdmin: http://localhost:8080/
-
-## ログイン情報
-■ 一般ユーザー  
-Email: demo@example.com  
-Password: password
+---
 
 ## 追加機能（応用実装）
 
@@ -75,17 +119,6 @@ Password: password
 - 新規会員登録時にメール認証用のメールを送信
 - 初回ログイン時もメール認証が完了していない場合は、認証画面へリダイレクト
 - 開発環境では MailHog を用いてメール内容を確認
-
-#### メール送信設定（一例：MailHog 使用時）
-
-  - MAIL_MAILER=smtp
-  - MAIL_HOST=mailhog
-  - MAIL_PORT=1025
-  - MAIL_USERNAME=null
-  - MAIL_PASSWORD=null
-  - MAIL_ENCRYPTION=null
-  - MAIL_FROM_ADDRESS="example@example.com"
-  - MAIL_FROM_NAME="Free Market App"
 
 ### 決済機能（Stripe）
 
