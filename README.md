@@ -49,11 +49,11 @@ docker compose up -d --build
 
 ### コンテナ側（Dockerの中）
 ```bash
-docker compose exec php bash -lc "composer install"
-docker compose exec php bash -lc "php artisan key:generate"
-docker compose exec php bash -lc "php artisan migrate --seed"
-docker compose exec php bash -lc "php artisan storage:link"
-docker compose exec php bash -lc "php artisan test"
+docker compose exec php bash -lc "cd /var/www && composer install"
+docker compose exec php bash -lc "cd /var/www && php artisan key:generate"
+docker compose exec php bash -lc "cd /var/www && php artisan migrate --seed"
+docker compose exec php bash -lc "cd /var/www && php artisan storage:link"
+docker compose exec php bash -lc "cd /var/www && php artisan test"
 ```
 
 ---
@@ -61,7 +61,6 @@ docker compose exec php bash -lc "php artisan test"
 ## 動作確認
 
 セットアップ完了後、http://localhost/ にアクセスしてトップページ（商品一覧）が表示されればOKです。
-ログイン画面は必要に応じて http://localhost/login から確認できます。
 メール認証の動作確認は MailHog (http://localhost:8025/) で受信できればOKです。
 
 ### URL
