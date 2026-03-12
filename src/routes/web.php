@@ -6,6 +6,9 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\TradeController;
+use App\Http\Controllers\TradeMessageController;
+use App\Http\Controllers\TradeReviewController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -60,5 +63,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
     Route::get('/mypage/profile', [UserController::class, 'profile'])->name('mypage.profile');
     Route::post('/mypage/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+
+    Route::get('/trades', [TradeController::class, 'index'])->name('trades.index');
+    Route::get('/trades/{trade}', [TradeController::class, 'show'])->name('trades.show');
+    Route::post('/trades/{trade}/complete', [TradeController::class, 'complete'])->name('trades.complete');
+
+    Route::post('/trades/{trade}/messages', [TradeMessageController::class, 'store'])->name('trade.messages.store');
+    Route::get('/trades/messages/{message}/edit', [TradeMessageController::class, 'edit'])->name('trade.messages.edit');
+    Route::put('/trades/messages/{message}', [TradeMessageController::class, 'update'])->name('trade.messages.update');
+    Route::delete('/trades/messages/{message}', [TradeMessageController::class, 'destroy'])->name('trade.messages.destroy');
+
+    Route::post('/trades/{trade}/reviews', [TradeReviewController::class, 'store'])->name('trade.reviews.store');
 });
 

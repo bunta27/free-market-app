@@ -127,6 +127,77 @@
     line-height: 30px;
 }
 
+.user__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.user__star {
+    font-size: 28px;
+    color: #d9d9d9;
+    line-height: 1;
+}
+
+.user__star--active {
+    color: #fff048;
+}
+
+.border__list {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.border__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    margin-left: 6px;
+    border-radius: 9999px;
+    background: #ff0000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.items__empty {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    color: #666;
+}
+
+.item__trade-link-wrap {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.item__trade-link {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ff5555;
+    border-radius: 4px;
+    color: #ff5555;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.item__trade-link:hover {
+    opacity: 0.8;
+}
+
 @media screen and (max-width: 850px) {
     .container {
         margin: 40px auto 60px;

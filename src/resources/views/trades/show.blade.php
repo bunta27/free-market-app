@@ -1,0 +1,183 @@
+@extends('layouts.app')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/trades/show.css') }}">
+@endsection
+
+@section('content')
+
+@include('components.header')
+<div class="trade-show">
+    <div class="trade-show__container">
+
+        <aside class="trade-show__sidebar">
+            <h2 class="trade-show__sidebar-title">その他の取引</h2>
+
+            <div class="trade-show__sidebar-list">
+                @forelse ($otherTrades as $otherTrade)
+                    <a href="{{ route('trades.show', $otherTrade) }}" class="trade-show__sidebar-item">
+                        {{ $otherTrade->item->name }}
+                    </a>
+                @empty
+                    <p class="trade-show__sidebar-empty">他の取引はありません</p>
+                @endforelse
+            </div>
+        </aside>
+
+        <div class="trade-show__main">
+            <div class="trade-show__header">
+                <div class="trade-show__partner">
+                    <div class="trade-show__partner-icon">
+                        @if (!empty($partnerUser->profile->img_url ?? null))
+                            <img src="{{ asset('storage/' . $partnerUser->profile->img_url) }}" alt="{{ $partnerUser->name }}">
+                        @endif
+                    </div>
+                    <h1 class="trade-show__partner-name">「{{ $partnerUser->name }}」さんとの取引画面</h1>
+                </div>
+
+                @if ($canComplete)
+                    <form action="{{ route('trades.complete', $trade) }}" method="post">
+                        @csrf
+                        <button type="submit" class="trade-show__complete-btn">取引を完了する</button>
+                    </form>
+                @endif
+            </div>
+
+            <div class="trade-show__item-card">
+                <div class="trade-show__item-image">
+                    <img src="{{ asset('storage/' . $trade->item->img_url) }}" alt="{{ $trade->item->name }}">
+                </div>
+                <div class="trade-show__item-info">
+                    <h2 class="trade-show__item-name">{{ $trade->item->name }}</h2>
+                    <p class="trade-show__item-price">¥{{ number_format($trade->item->price) }}</p>
+                </div>
+            </div>
+
+            @if (session('success'))
+                <div class="trade-show__alert trade-show__alert--success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="trade-show__alert trade-show__alert--error">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <div class="trade-show__messages">
+                @foreach ($trade->messages as $message)
+                    @php
+                        $isMine = $message->user_id === auth()->id();
+                    @endphp
+
+                    <div class="trade-show__message {{ $isMine ? 'trade-show__message--mine' : 'trade-show__message--other' }}">
+                        <div class="trade-show__message-head">
+                            @if (!$isMine)
+                                <div class="trade-show__message-user-icon"></div>
+                                <span class="trade-show__message-user-name">{{ $message->user->name }}</span>
+                            @else
+                                <span class="trade-show__message-user-name">{{ $message->user->name }}</span>
+                                <div class="trade-show__message-user-icon"></div>
+                            @endif
+                        </div>
+
+                        <div class="trade-show__message-body">
+                            <p class="trade-show__message-text">{{ $message->message }}</p>
+
+                            @if ($message->image_path)
+                                <div class="trade-show__message-image">
+                                    <img src="{{ asset('storage/' . $message->image_path) }}" alt="送信画像">
+                                </div>
+                            @endif
+                        </div>
+
+                        @if ($isMine)
+                            <div class="trade-show__message-actions">
+                                <a href="{{ route('trade.messages.edit', $message) }}">編集</a>
+                                <form action="{{ route('trade.messages.destroy', $message) }}" method="post" onsubmit="return confirm('削除しますか？')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">削除</button>
+                                </form>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="trade-show__form-wrap">
+                <form action="{{ route('trade.messages.store', $trade) }}" method="post" enctype="multipart/form-data" class="trade-show__form">
+                    @csrf
+
+                    <div class="trade-show__form-main">
+                        <input
+                            type="text"
+                            name="message"
+                            class="trade-show__input"
+                            placeholder="取引メッセージを記入してください"
+                            value="{{ old('message') }}"
+                        >
+
+                        <label class="trade-show__image-btn">
+                            画像を追加
+                            <input type="file" name="image" hidden>
+                        </label>
+
+                        <button type="submit" class="trade-show__submit-btn">送信</button>
+                    </div>
+
+                    @error('message')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+
+                    @error('image')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if ($canReview)
+        <div class="trade-review-modal">
+            <div class="trade-review-modal__overlay"></div>
+            <div class="trade-review-modal__content">
+                <div class="trade-review-modal__header">
+                    <h2>取引が完了しました。</h2>
+                    <p>今回の取引相手はどうでしたか？</p>
+                </div>
+
+                <form action="{{ route('trade.reviews.store', $trade) }}" method="post" class="trade-review-modal__form">
+                    @csrf
+
+                    <div class="trade-review-modal__stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <label>
+                                <input type="radio" name="rating" value="{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }}>
+                                <span>★</span>
+                            </label>
+                        @endfor
+                    </div>
+
+                    <div class="trade-review-modal__comment">
+                        <textarea name="comment" rows="4" placeholder="コメントを入力してください（任意）">{{ old('comment') }}</textarea>
+                    </div>
+
+                    @error('rating')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+
+                    @error('comment')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+
+                    <div class="trade-review-modal__footer">
+                        <button type="submit" class="trade-review-modal__submit">送信する</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+</div>
+@endsection

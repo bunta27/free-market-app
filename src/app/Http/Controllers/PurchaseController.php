@@ -6,6 +6,7 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 use App\Models\Profile;
 use App\Models\SoldItem;
+use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +45,7 @@ class PurchaseController extends Controller
             ['postcode' => '', 'address' => '', 'building' => '']
         );
 
-        if (app()->environment('testing')) {
+        if (app()->environment(['local', 'testing'])) {
             DB::transaction(function () use ($item, $user, $profile) {
                 SoldItem::create([
                     'item_id'          => $item->id,
@@ -52,6 +53,14 @@ class PurchaseController extends Controller
                     'sending_postcode' => $profile->postcode,
                     'sending_address'  => $profile->address,
                     'sending_building' => $profile->building,
+                ]);
+
+                Trade::firstOrCreate(
+                ['item_id' => $item->id],
+                [
+                    'seller_id' => $item->user_id,
+                    'buyer_id'  => $user->id,
+                    'status'    => 'ongoing',
                 ]);
             });
 
@@ -106,6 +115,14 @@ class PurchaseController extends Controller
                 'sending_postcode' => $profile->postcode,
                 'sending_address'  => $profile->address,
                 'sending_building' => $profile->building,
+            ]);
+            
+            Trade::firstOrCreate(
+            ['item_id' => $item->id],
+            [
+                'seller_id' => $item->user_id,
+                'buyer_id'  => $user->id,
+                'status'    => 'ongoing',
             ]);
         });
 

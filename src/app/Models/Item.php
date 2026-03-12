@@ -85,4 +85,9 @@ class Item extends Model
     {
         return Auth::check() && $this->user_id === Auth::id();
     }
+
+    public function trade()
+    {
+        return $this->hasOne(\App\Models\Trade::class);
+    }
 }

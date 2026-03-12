@@ -1,0 +1,91 @@
+.trade-message-edit {
+    width: 100%;
+    padding: 48px 20px 80px;
+    box-sizing: border-box;
+}
+
+.trade-message-edit__inner {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.trade-message-edit__title {
+    margin: 0 0 32px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;
+}
+
+.trade-message-edit__form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.trade-message-edit__group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trade-message-edit__group label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.trade-message-edit__group textarea,
+.trade-message-edit__group input[type="file"] {
+    font-size: 16px;
+}
+
+.trade-message-edit__group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.trade-message-edit__preview {
+    width: 240px;
+    margin-top: 8px;
+}
+
+.trade-message-edit__preview img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+}
+
+.trade-message-edit__error {
+    margin: 0;
+    color: #ff5555;
+    font-size: 14px;
+}
+
+.trade-message-edit__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.trade-message-edit__back {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    color: #555;
+    text-decoration: none;
+}
+
+.trade-message-edit__submit {
+    border: none;
+    border-radius: 4px;
+    background: #ff5555;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

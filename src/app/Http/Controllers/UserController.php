@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Item;
+use App\Models\Trade;
 use App\Http\Requests\ProfileRequest;
 
 class UserController extends Controller
@@ -53,13 +54,49 @@ class UserController extends Controller
         $tab = $request->query('page', 'sell');
 
         if ($tab === 'buy') {
-            $items = Item::whereHas('soldItem', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            })->get();
+            $items = Item::with('trade')
+                ->whereHas('soldItem', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                })->get();
+
+            $trades = collect();
+        } elseif ($tab === 'trade') {
+            $trades = \App\Models\Trade::with('item')
+                ->where(function ($query) use ($user) {
+                    $query->where('seller_id', $user->id)
+                        ->orWhere('buyer_id', $user->id);
+                })
+                ->whereIn('status', ['ongoing', 'buyer_completed'])
+                ->latest()
+                ->get();
+
+            $items = collect();
         } else {
-            $items = Item::where('user_id', $user->id)->get();
+            $items = Item::with('trade')
+                ->where('user_id', $user->id)
+                ->get();
+
+            $trades = collect();
         }
 
-        return view('mypage', compact('user', 'items'));
+        $avgRating = method_exists($user, 'reviewAverage')
+            ? $user->reviewAverage()
+            : null;
+
+        $tradeCount = \App\Models\Trade::where(function ($query) use ($user) {
+            $query->where('seller_id', $user->id)
+                ->orWhere('buyer_id', $user->id);
+        })
+        ->whereIn('status', ['ongoing', 'buyer_completed'])
+        ->count();
+
+        return view('mypage', compact(
+            'user',
+            'tab',
+            'items',
+            'trades',
+            'avgRating',
+            'tradeCount'
+        ));
     }
 }
