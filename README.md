@@ -62,7 +62,7 @@ docker compose exec php bash -lc "cd /var/www && php artisan test"
 
 ## 動作確認
 
-セットアップ完了後、http://localhost/ にアクセスしてトップページ（商品一覧）が表示されればOKです。
+セットアップ完了後、http://localhost/ にアクセスしてトップページ（商品一覧）が表示されればOKです。  
 メール認証の動作確認は MailHog (http://localhost:8025/) で受信できればOKです。
 
 ### URL
