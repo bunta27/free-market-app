@@ -152,11 +152,14 @@
                     @csrf
 
                     <div class="trade-review-modal__stars">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <label>
-                                <input type="radio" name="rating" value="{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }}>
-                                <span>★</span>
-                            </label>
+                        @for ($i = 5; $i >= 1; $i--)
+                            <input
+                                type="radio"
+                                id="rating-{{ $i }}"
+                                name="rating"
+                                value="{{ $i }}"
+                                {{ old('rating') == $i ? 'checked' : '' }}>
+                            <label for="rating-{{ $i }}">★</label>
                         @endfor
                     </div>
 

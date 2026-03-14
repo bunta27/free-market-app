@@ -70,9 +70,22 @@ docker compose exec php bash -lc "cd /var/www && php artisan test"
 - MailHog: http://localhost:8025/ （開発用メール受信確認）
 
 ## ログイン情報
-■ 一般ユーザー  
-Email: demo@example.com  
-Password: password
+### テストユーザー
+- 出品者1
+  email: seller1@example.com
+  password: password
+
+- 出品者2
+  email: seller2@example.com
+  password: password
+
+- 未使用ユーザー
+  email: user3@example.com
+  password: password
+
+### 商品データ
+・C001〜C005 は出品者1が出品
+・C006〜C010 は出品者2が出品
 
 ---
 
