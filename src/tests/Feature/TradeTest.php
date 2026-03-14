@@ -2,13 +2,18 @@
 
 namespace Tests\Feature;
 
+use App\Mail\TradeCompletedMail;
 use App\Models\Condition;
 use App\Models\Item;
 use App\Models\Trade;
 use App\Models\TradeMessage;
+use App\Models\TradeMessageRead;
 use App\Models\TradeReview;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class TradeTest extends TestCase
@@ -164,7 +169,7 @@ class TradeTest extends TestCase
         ]);
     }
 
-    public function test_メッセージと画像が両方空なら送信できない()
+    public function test_メッセージが空なら送信できない()
     {
         $data = $this->createTradeData();
 
@@ -173,9 +178,50 @@ class TradeTest extends TestCase
                 'message' => '',
             ]);
 
-        $response->assertSessionHasErrors(['message', 'image']);
+        $response->assertSessionHasErrors(['message']);
 
         $this->assertDatabaseCount('trade_messages', 0);
+    }
+
+    public function test_メッセージが空なら画像があっても更新できない()
+    {
+        Storage::fake('public');
+
+        $data = $this->createTradeData();
+
+        $message = TradeMessage::create([
+            'trade_id' => $data['trade']->id,
+            'user_id' => $data['buyer']->id,
+            'message' => '更新前メッセージ',
+        ]);
+
+        $tempPath = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempPath, base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX8kAAAAASUVORK5CYII='
+        ));
+
+        $image = new \Illuminate\Http\UploadedFile(
+            $tempPath,
+            'sample.png',
+            'image/png',
+            null,
+            true
+        );
+
+        $response = $this->actingAs($data['buyer'])
+            ->from(route('trade.messages.edit', $message))
+            ->put(route('trade.messages.update', $message), [
+                'message' => '',
+                'image' => $image,
+            ]);
+
+        $response->assertRedirect(route('trade.messages.edit', $message));
+        $response->assertSessionHasErrors(['message']);
+
+        $this->assertDatabaseHas('trade_messages', [
+            'id' => $message->id,
+            'message' => '更新前メッセージ',
+        ]);
     }
 
     public function test_評価が未選択なら送信できない()
@@ -202,6 +248,8 @@ class TradeTest extends TestCase
 
     public function test_購入者は取引完了できる()
     {
+        Mail::fake();
+
         $data = $this->createTradeData();
 
         $response = $this->actingAs($data['buyer'])
@@ -213,10 +261,14 @@ class TradeTest extends TestCase
             'id' => $data['trade']->id,
             'status' => 'buyer_completed',
         ]);
+
+        Mail::assertSent(TradeCompletedMail::class);
     }
 
     public function test_出品者は取引完了できない()
     {
+        Mail::fake();
+
         $data = $this->createTradeData();
 
         $response = $this->actingAs($data['seller'])
@@ -228,6 +280,8 @@ class TradeTest extends TestCase
             'id' => $data['trade']->id,
             'status' => 'ongoing',
         ]);
+
+        Mail::assertNothingSent();
     }
 
     public function test_取引完了後は評価できる()
@@ -245,7 +299,7 @@ class TradeTest extends TestCase
                 'comment' => 'とても良い取引でした',
             ]);
 
-        $response->assertRedirect(route('trades.show', $data['trade']));
+        $response->assertRedirect(route('items.index'));
 
         $this->assertDatabaseHas('trade_reviews', [
             'trade_id' => $data['trade']->id,
@@ -329,7 +383,7 @@ class TradeTest extends TestCase
                 'comment' => '出品者評価',
             ]);
 
-        $response->assertRedirect(route('trades.show', $data['trade']));
+        $response->assertRedirect(route('items.index'));
 
         $this->assertDatabaseHas('trades', [
             'id' => $data['trade']->id,
@@ -347,5 +401,65 @@ class TradeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('取引中の商品');
         $response->assertSee($data['item']->name);
+    }
+
+    public function test_未読メッセージがある取引では未読件数が表示される()
+    {
+        $data = $this->createTradeData();
+
+        TradeMessage::create([
+            'trade_id' => $data['trade']->id,
+            'user_id' => $data['seller']->id,
+            'message' => '未読メッセージ',
+        ]);
+
+        $response = $this->actingAs($data['buyer'])
+            ->get(route('mypage', ['page' => 'trade']));
+
+        $response->assertStatus(200);
+        $response->assertSee((string) 1);
+    }
+
+    public function test_取引画面を開くと相手のメッセージが既読になる()
+    {
+        $data = $this->createTradeData();
+
+        $message = TradeMessage::create([
+            'trade_id' => $data['trade']->id,
+            'user_id' => $data['seller']->id,
+            'message' => '未読メッセージ',
+        ]);
+
+        $this->actingAs($data['buyer'])
+            ->get(route('trades.show', $data['trade']))
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('trade_message_reads', [
+            'trade_message_id' => $message->id,
+            'user_id' => $data['buyer']->id,
+        ]);
+    }
+
+    public function test_既読後は未読件数が表示されない()
+    {
+        $data = $this->createTradeData();
+
+        $message = TradeMessage::create([
+            'trade_id' => $data['trade']->id,
+            'user_id' => $data['seller']->id,
+            'message' => '未読メッセージ',
+        ]);
+
+        TradeMessageRead::create([
+            'trade_message_id' => $message->id,
+            'user_id' => $data['buyer']->id,
+            'read_at' => now(),
+        ]);
+
+        $response = $this->actingAs($data['buyer'])
+            ->get(route('mypage', ['page' => 'trade']));
+
+        $response->assertStatus(200);
+        $response->assertDontSee('item__badge', false);
     }
 }
