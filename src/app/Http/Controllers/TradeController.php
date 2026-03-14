@@ -6,6 +6,7 @@ use App\Models\Trade;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\TradeCompletedMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\TradeMessageRead;
 
 class TradeController extends Controller
 {
@@ -34,8 +35,8 @@ class TradeController extends Controller
 
         $trade->load([
             'item',
-            'seller',
-            'buyer',
+            'seller.profile',
+            'buyer.profile',
             'messages.user',
             'reviews',
         ]);
@@ -94,6 +95,22 @@ class TradeController extends Controller
         ]);
 
         $trade->load(['item', 'seller', 'buyer']);
+
+        $messagesToRead = $trade->messages()
+            ->where('user_id', '!=', $userId)
+            ->get();
+
+        foreach ($messagesToRead as $message) {
+            TradeMessageRead::updateOrCreate(
+                [
+                    'trade_message_id' => $message->id,
+                    'user_id' => $userId,
+                ],
+                [
+                    'read_at' => now(),
+                ]
+            );
+        }
 
         Mail::to($trade->seller->email)->send(new TradeCompletedMail($trade));
 

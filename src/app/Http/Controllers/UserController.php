@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Item;
 use App\Models\Trade;
+use App\Models\TradeMessageRead;
+use App\Models\TradeMessage;
 use App\Http\Requests\ProfileRequest;
 
 class UserController extends Controller
@@ -61,14 +63,31 @@ class UserController extends Controller
 
             $trades = collect();
         } elseif ($tab === 'trade') {
-            $trades = \App\Models\Trade::with('item')
+            $trades = Trade::with(['item', 'messages'])
                 ->where(function ($query) use ($user) {
                     $query->where('seller_id', $user->id)
                         ->orWhere('buyer_id', $user->id);
                 })
                 ->whereIn('status', ['ongoing', 'buyer_completed'])
-                ->latest()
-                ->get();
+                ->get()
+                ->map(function ($trade) use ($user) {
+                    $unreadCount = $trade->messages
+                        ->where('user_id', '!=', $user->id)
+                        ->filter(function ($message) use ($user) {
+                            return !TradeMessageRead::where('trade_message_id', $message->id)
+                                ->where('user_id', $user->id)
+                                ->exists();
+                        })
+                        ->count();
+
+                    $trade->unread_count = $unreadCount;
+
+                    return $trade;
+                })
+                ->sortByDesc(function ($trade) {
+                    return $trade->unread_count > 0 ? 1 : 0;
+                })
+                ->values();
 
             $items = collect();
         } else {
@@ -83,12 +102,23 @@ class UserController extends Controller
             ? $user->reviewAverage()
             : null;
 
-        $tradeCount = \App\Models\Trade::where(function ($query) use ($user) {
-            $query->where('seller_id', $user->id)
-                ->orWhere('buyer_id', $user->id);
-        })
-        ->whereIn('status', ['ongoing', 'buyer_completed'])
-        ->count();
+        $tradeCount = Trade::with('messages')
+            ->where(function ($query) use ($user) {
+                $query->where('seller_id', $user->id)
+                    ->orWhere('buyer_id', $user->id);
+            })
+            ->whereIn('status', ['ongoing', 'buyer_completed'])
+            ->get()
+            ->sum(function ($trade) use ($user) {
+                return $trade->messages
+                    ->where('user_id', '!=', $user->id)
+                    ->filter(function ($message) use ($user) {
+                        return !TradeMessageRead::where('trade_message_id', $message->id)
+                            ->where('user_id', $user->id)
+                            ->exists();
+                    })
+                    ->count();
+            });
 
         return view('mypage', compact(
             'user',

@@ -32,4 +32,9 @@ class TradeMessage extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function reads()
+    {
+        return $this->hasMany(TradeMessageRead::class);
+    }
 }

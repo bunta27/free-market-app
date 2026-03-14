@@ -70,8 +70,9 @@
                     <a href="{{ route('trades.show', $trade->id) }}">
                         <div class="item__img">
                             <img src="{{ Storage::url($trade->item->img_url) }}" alt="商品画像">
-                            {{-- 未読件数を後で実装するならここにバッジ追加 --}}
-                            {{-- <span class="item__badge">1</span> --}}
+                            @if($trade->unread_count > 0)
+                                <span class="item__badge">{{ $trade->unread_count }}</span>
+                            @endif
                         </div>
                         <p class="item__name">{{ $trade->item->name }}</p>
                     </a>
@@ -83,8 +84,13 @@
     @else
         <div class="items">
             @foreach($items as $item)
+                @php
+                $itemLink = $item->trade
+                    ? route('trades.show', $item->trade->id)
+                    : route('items.detail', $item->id);
+            @endphp
                 <div class="item">
-                    <a href="{{ route('items.detail', $item->id) }}">
+                    <a href="{{ $itemLink }}">
                         @if($item->sold())
                             <div class="item__img sold">
                                 <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">
@@ -96,14 +102,6 @@
                         @endif
                         <p class="item__name">{{ $item->name }}</p>
                     </a>
-
-                    @if($item->trade)
-                        <div class="item__trade-link-wrap">
-                            <a href="{{ route('trades.show', $item->trade->id) }}" class="item__trade-link">
-                                取引画面へ
-                            </a>
-                        </div>
-                    @endif
                 </div>
             @endforeach
         </div>
