@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'seller1@example.com'],
             [
-                'name' => '出品者1',
+                'name' => 'ユーザー名',
                 'password' => Hash::make('password'),
             ]
         );
@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'seller2@example.com'],
             [
-                'name' => '出品者2',
+                'name' => 'ユーザー名',
                 'password' => Hash::make('password'),
             ]
         );
@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'user3@example.com'],
             [
-                'name' => '未使用ユーザー',
+                'name' => 'ユーザー名',
                 'password' => Hash::make('password'),
             ]
         );
