@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
             ConditionsTableSeeder::class,
             CategoriesTableSeeder::class,
             ItemsTableSeeder::class,
+            SoldItemsTableSeeder::class,
+            TradesTableSeeder::class,
+            TradeMessagesTableSeeder::class,
+            TradeReviewsTableSeeder::class,
         ]);
     }
 }
