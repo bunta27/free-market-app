@@ -41,6 +41,22 @@ class TradeController extends Controller
             'reviews',
         ]);
 
+        $messagesToRead = $trade->messages()
+            ->where('user_id', '!=', $userId)
+            ->get();
+
+        foreach ($messagesToRead as $message) {
+            TradeMessageRead::updateOrCreate(
+                [
+                    'trade_message_id' => $message->id,
+                    'user_id' => $userId,
+                ],
+                [
+                    'read_at' => now(),
+                ]
+            );
+        }
+
         $otherTrades = Trade::with('item')
             ->where(function ($query) use ($userId) {
                 $query->where('seller_id', $userId)
@@ -95,22 +111,6 @@ class TradeController extends Controller
         ]);
 
         $trade->load(['item', 'seller', 'buyer']);
-
-        $messagesToRead = $trade->messages()
-            ->where('user_id', '!=', $userId)
-            ->get();
-
-        foreach ($messagesToRead as $message) {
-            TradeMessageRead::updateOrCreate(
-                [
-                    'trade_message_id' => $message->id,
-                    'user_id' => $userId,
-                ],
-                [
-                    'read_at' => now(),
-                ]
-            );
-        }
 
         Mail::to($trade->seller->email)->send(new TradeCompletedMail($trade));
 
