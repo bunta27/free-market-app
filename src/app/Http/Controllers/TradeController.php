@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Trade;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\TradeCompletedMail;
+use Illuminate\Support\Facades\Mail;
 
 class TradeController extends Controller
 {
@@ -90,6 +92,10 @@ class TradeController extends Controller
             'status' => 'buyer_completed',
             'buyer_completed_at' => now(),
         ]);
+
+        $trade->load(['item', 'seller', 'buyer']);
+
+        Mail::to($trade->seller->email)->send(new TradeCompletedMail($trade));
 
         return redirect()
             ->route('trades.show', $trade)
