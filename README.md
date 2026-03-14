@@ -101,10 +101,10 @@ docker compose exec php bash -lc "cd /var/www && php artisan test"
 ---
 
 ## 注意事項
-- Laravel アプリケーション本体は src ディレクトリにあります。
-- 商品画像を表示する場合は、src/storage/app/public/items/ に画像ファイルを配置してください。
-- 商品画像を表示するには、Seeder に設定しているファイル名と実際の画像ファイル名を一致させる必要があります。
-- Stripe を利用する場合は、別途 .env に API キーの設定が必要です。
+- Laravel アプリケーション本体は `src` ディレクトリにあります。
+- 商品画像を表示する場合は、`src/storage/app/public/items/` に画像ファイルを配置してください。
+- 商品画像を表示するには、`Seeder` に設定しているファイル名と実際の画像ファイル名を一致させる必要があります。
+- Stripe を利用する場合は、別途 `.env` に API キーの設定が必要です。
 
 ---
 
