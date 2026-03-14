@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
+@section('title','メッセージ編集画面')
+
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/trades/edit-message.css') }}">
+<link rel="stylesheet" href="{{ asset('/css/trades/edit-message.css') }}">
 @endsection
 
 @section('content')
@@ -25,16 +27,38 @@
 
             <div class="trade-message-edit__group">
                 <label for="image">画像</label>
-                <input type="file" name="image" id="image">
+
+                <div class="trade-message-edit__file-wrap">
+                    <label for="image" class="trade-message-edit__file-label">画像を選択する</label>
+                    <span class="trade-message-edit__file-name" id="file-name">選択されていません</span>
+                    <input type="file" name="image" id="image" class="trade-message-edit__file-input">
+                </div>
+
                 @if ($message->image_path)
                     <div class="trade-message-edit__preview">
                         <img src="{{ asset('storage/' . $message->image_path) }}" alt="現在の画像">
                     </div>
                 @endif
+
                 @error('image')
                     <p class="trade-message-edit__error">{{ $message }}</p>
                 @enderror
             </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const fileInput = document.getElementById('image');
+                const fileName = document.getElementById('file-name');
+
+                if (fileInput && fileName) {
+                    fileInput.addEventListener('change', function () {
+                        fileName.textContent = this.files.length > 0
+                            ? this.files[0].name
+                            : '選択されていません';
+                    });
+                }
+            });
+            </script>
 
             <div class="trade-message-edit__actions">
                 <a href="{{ route('trades.show', $message->trade) }}" class="trade-message-edit__back">戻る</a>

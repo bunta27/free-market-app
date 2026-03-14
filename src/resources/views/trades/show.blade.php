@@ -110,6 +110,14 @@
                 <form action="{{ route('trade.messages.store', $trade) }}" method="post" enctype="multipart/form-data" class="trade-show__form">
                     @csrf
 
+                    @error('message')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+
+                    @error('image')
+                        <p class="trade-show__error">{{ $message }}</p>
+                    @enderror
+
                     <div class="trade-show__form-main">
                         <input
                             type="text"
@@ -128,14 +136,6 @@
                             <img src="{{ Storage::url('img/inputbutton.jpg') }}" alt="送信">
                         </button>
                     </div>
-
-                    @error('message')
-                        <p class="trade-show__error">{{ $message }}</p>
-                    @enderror
-
-                    @error('image')
-                        <p class="trade-show__error">{{ $message }}</p>
-                    @enderror
                 </form>
             </div>
         </div>

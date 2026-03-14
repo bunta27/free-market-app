@@ -1,0 +1,166 @@
+.trade-message-edit {
+    width: 100%;
+    padding: 0 20px 80px;
+    box-sizing: border-box;
+}
+
+.trade-message-edit__inner {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.trade-message-edit__title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 60px 0;
+    color: #000;
+}
+
+.trade-message-edit__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.trade-message-edit__group {
+    display: flex;
+    flex-direction: column;
+}
+
+.trade-message-edit__group+.trade-message-edit__group {
+    margin-top: 40px;
+}
+
+.trade-message-edit__group label {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #000;
+}
+
+.trade-message-edit__group textarea,
+.trade-message-edit__group input[type="file"] {
+    font-size: 24px;
+}
+
+.trade-message-edit__group textarea {
+    width: 100%;
+    min-height: 220px;
+    border-radius: 4px;
+    border: 1px solid #5f5f5f;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.trade-message-edit__preview {
+    width: 240px;
+    margin-top: 12px;
+}
+
+.trade-message-edit__preview img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+}
+
+.trade-message-edit__file-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.trade-message-edit__file-input {
+    display: none;
+}
+
+.trade-message-edit__file-wrap .trade-message-edit__file-label {
+    width: 180px;
+    height: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #FF5555;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #FF5555;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 1;
+    padding: 10px 10px;
+}
+
+.trade-message-edit__file-name {
+    font-size: 20px;
+    color: #000;
+}
+
+.trade-message-edit__error {
+    color: #ff5555;
+    font-size: 24px;
+}
+
+.trade-message-edit__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 60px 0 80px;
+}
+
+.trade-message-edit__back {
+    width: 180px;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    border-radius: 5px;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    font-size: 26px;
+    font-weight: bold;
+    background-color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.trade-message-edit__submit {
+    width: 180px;
+    height: 60px;
+    padding: 0 30px;
+    background-color: #FF5555;
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+    .trade-message-edit {
+        margin: 40px auto 60px;
+        padding: 0 16px;
+    }
+
+    .trade-message-edit__title {
+        margin: 40px 0;
+    }
+
+    .trade-message-edit__actions {
+        margin: 32px auto 60px;
+        flex-wrap: wrap;
+    }
+
+    .trade-message-edit__back,
+    .trade-message-edit__submit {
+        width: 100%;
+        justify-content: center;
+    }
+}
