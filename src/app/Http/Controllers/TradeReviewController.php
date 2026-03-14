@@ -55,7 +55,7 @@ class TradeReviewController extends Controller
         }
 
         return redirect()
-            ->route('trades.show', $trade)
+            ->route('items.index')
             ->with('success', '評価を送信しました。');
     }
 }
