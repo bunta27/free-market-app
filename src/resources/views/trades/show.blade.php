@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','取引チャット画面')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/trades/show.css') }}">
 @endsection

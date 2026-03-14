@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','取引一覧')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/trades/index.css') }}">
 @endsection
