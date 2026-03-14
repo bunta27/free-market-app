@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TradesTableSeeder::class,
             TradeMessagesTableSeeder::class,
             TradeReviewsTableSeeder::class,
+            TradeMessageReadsTableSeeder::class,
         ]);
     }
 }
