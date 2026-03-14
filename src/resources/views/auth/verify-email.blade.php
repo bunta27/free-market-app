@@ -16,9 +16,9 @@
         メール認証を完了してください。
     </p>
 
-    @if (session('status') === 'verification-link-sent')
+    @if (session('resent'))
         <p class="verify__status">
-            認証メールを送信しました。
+            認証メールを再送しました。
         </p>
     @endif
 
