@@ -16,9 +16,18 @@
         メール認証を完了してください。
     </p>
 
-    <button type="button" class="verify__primary-btn">
-        認証はこちらから
-    </button>
+    @if (session('status') === 'verification-link-sent')
+        <p class="verify__status">
+            認証メールを送信しました。
+        </p>
+    @endif
+
+    <form method="POST" action="{{ route('verification.send') }}" class="verify__primary-form">
+        @csrf
+        <button type="submit" class="verify__primary-btn">
+            認証はこちらから
+        </button>
+    </form>
 
     <form method="POST" action="{{ route('verification.send') }}" class="verify__resend-form">
         @csrf

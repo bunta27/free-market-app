@@ -9,13 +9,16 @@
     line-height: 1.2;
 }
 
+.verify__primary-form {
+    margin-top: 62px;
+}
+
 .verify__primary-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 257px;
     height: 69px;
-    margin: 62px auto 0;
     border-radius: 10px;
     border: 1px solid #000000;
     background-color: #D9D9D9;
@@ -43,6 +46,14 @@
     text-decoration: underline;
 }
 
+.verify__status {
+    margin-top: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0073CC;
+    line-height: 1.4;
+}
+
 @media screen and (max-width: 850px) {
     .verify {
         padding-top: 10px;
@@ -60,5 +71,9 @@
 
     .verify__resend-link {
         font-size: 18px;
+    }
+
+    .verify__status {
+        font-size: 16px;
     }
 }
