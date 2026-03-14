@@ -138,7 +138,7 @@ docker compose logs mysql
 
 ## ER 図
 
-<img src="docs/ER.svg" alt="ER図" width="1200">
+<img src="docs/ER.svg" alt="ER図" width="1500">
 
 ---
 
