@@ -14,13 +14,11 @@
             <h2 class="trade-show__sidebar-title">その他の取引</h2>
 
             <div class="trade-show__sidebar-list">
-                @forelse ($otherTrades as $otherTrade)
+                @foreach ($otherTrades as $otherTrade)
                     <a href="{{ route('trades.show', $otherTrade) }}" class="trade-show__sidebar-item">
                         {{ $otherTrade->item->name }}
                     </a>
-                @empty
-                    <p class="trade-show__sidebar-empty">他の取引はありません</p>
-                @endforelse
+                @endforeach
             </div>
         </aside>
 
