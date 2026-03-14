@@ -48,7 +48,7 @@ docker compose up -d --build
 ```
 
 ### コンテナ側（Dockerの中）
-※ php artisan migrate:fresh --seed は、DBを初期化してダミーデータを再投入します。
+※ `php artisan migrate:fresh --seed` は、DBを初期化してダミーデータを再投入します。
 
 ```bash
 docker compose exec php bash -lc "cd /var/www && composer install"
@@ -160,7 +160,7 @@ docker compose logs mysql
 - 決済成功時に購入処理が行われ、購入情報が `sold_items` テーブルに保存されます
 - キャンセル時はキャンセル用画面（または詳細ページ）に遷移します  
 - 開発環境（local / testing）では追加機能の動作確認をしやすくするため、実際の Stripe 決済画面には遷移せず、疑似的に購入処理を完了する仕様にしています
-- 実際に Stripe を利用する場合は .env にAPIキーの設定が必要です
+- 実際に Stripe を利用する場合は `.env` にAPIキーの設定が必要です
 
 ### マイページ・その他機能
 
