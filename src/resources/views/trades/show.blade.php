@@ -124,7 +124,9 @@
                             <input type="file" name="image" hidden>
                         </label>
 
-                        <button type="submit" class="trade-show__submit-btn">送信</button>
+                        <button type="submit" class="trade-show__submit-btn">
+                            <img src="{{ Storage::url('img/inputbutton.jpg') }}" alt="送信">
+                        </button>
                     </div>
 
                     @error('message')
