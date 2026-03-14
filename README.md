@@ -71,21 +71,21 @@ docker compose exec php bash -lc "cd /var/www && php artisan test"
 
 ## ログイン情報
 ### テストユーザー
-- 出品者1
-  email: seller1@example.com
+- 出品者1  
+  email: seller1@example.com  
   password: password
 
-- 出品者2
-  email: seller2@example.com
+- 出品者2  
+  email: seller2@example.com  
   password: password
 
-- 未使用ユーザー
-  email: user3@example.com
+- 未使用ユーザー  
+  email: user3@example.com  
   password: password
 
 ### 商品データ
-・C001〜C005 は出品者1が出品
-・C006〜C010 は出品者2が出品
+- C001〜C005 は出品者1が出品  
+- C006〜C010 は出品者2が出品
 
 ---
 
