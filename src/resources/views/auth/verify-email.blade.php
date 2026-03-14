@@ -16,12 +16,6 @@
         メール認証を完了してください。
     </p>
 
-    @if (session('resent'))
-        <p class="verify__status">
-            認証メールを再送しました。
-        </p>
-    @endif
-
     <form method="POST" action="{{ route('verification.send') }}" class="verify__primary-form">
         @csrf
         <button type="submit" class="verify__primary-btn">
