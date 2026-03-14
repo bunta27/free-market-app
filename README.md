@@ -134,7 +134,7 @@ docker compose logs mysql
   - mysql 8.0.26  
   - Nginx 1.21.1  
   - Docker 28.3.2/ Docker Compose v2.39.1  
-  - PHPUnit 8.83.29
+  - PHPUnit 9.6.34
 
 ## ER 図
 
