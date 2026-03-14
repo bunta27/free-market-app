@@ -48,10 +48,12 @@ docker compose up -d --build
 ```
 
 ### コンテナ側（Dockerの中）
+※ php artisan migrate:fresh --seed は、DBを初期化してダミーデータを再投入します。
+
 ```bash
 docker compose exec php bash -lc "cd /var/www && composer install"
 docker compose exec php bash -lc "cd /var/www && php artisan key:generate"
-docker compose exec php bash -lc "cd /var/www && php artisan migrate --seed"
+docker compose exec php bash -lc "cd /var/www && php artisan migrate:fresh --seed"
 docker compose exec php bash -lc "cd /var/www && php artisan storage:link"
 docker compose exec php bash -lc "cd /var/www && php artisan test"
 ```
