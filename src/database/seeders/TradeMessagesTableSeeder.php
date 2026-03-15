@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Item;
 use App\Models\User;
 use App\Models\Trade;
 use App\Models\TradeMessage;
@@ -14,7 +13,6 @@ class TradeMessagesTableSeeder extends Seeder
     {
         $seller1 = User::where('email', 'seller1@example.com')->firstOrFail();
         $seller2 = User::where('email', 'seller2@example.com')->firstOrFail();
-        $user3   = User::where('email', 'user3@example.com')->firstOrFail();
 
         $watchTrade = Trade::whereHas('item', function ($query) use ($seller1) {
             $query->where('name', '腕時計')->where('user_id', $seller1->id);
@@ -33,9 +31,10 @@ class TradeMessagesTableSeeder extends Seeder
         })->firstOrFail();
 
         $watchMessages = [
-            ['user_id' => $seller2->id, 'message' => '購入させていただきました。よろしくお願いします。'],
-            ['user_id' => $seller1->id, 'message' => 'ご購入ありがとうございます。近日中に発送予定です。'],
-            ['user_id' => $seller2->id, 'message' => '承知しました。楽しみにしています。'],
+            ['user_id' => $seller2->id, 'message' => '購入しました。よろしくお願いします。'],
+            ['user_id' => $seller1->id, 'message' => 'ご購入ありがとうございます。発送準備を進めます。'],
+            ['user_id' => $seller2->id, 'message' => 'ありがとうございます。'],
+            ['user_id' => $seller2->id, 'message' => '発送予定日を教えていただけますか？'],
         ];
 
         foreach ($watchMessages as $row) {
@@ -53,9 +52,8 @@ class TradeMessagesTableSeeder extends Seeder
         }
 
         $hddMessages = [
-            ['user_id' => $user3->id, 'message' => '購入しました。発送をお願いします。'],
-            ['user_id' => $seller1->id, 'message' => 'ありがとうございます。準備ができ次第発送します。'],
-            ['user_id' => $user3->id, 'message' => 'よろしくお願いします。'],
+            ['user_id' => $seller2->id, 'message' => '購入しました。よろしくお願いします。'],
+            ['user_id' => $seller1->id, 'message' => 'ありがとうございます。発送準備中です。'],
         ];
 
         foreach ($hddMessages as $row) {
@@ -92,9 +90,9 @@ class TradeMessagesTableSeeder extends Seeder
         }
 
         $micMessages = [
-            ['user_id' => $user3->id, 'message' => '購入しました。よろしくお願いします。'],
+            ['user_id' => $seller1->id, 'message' => '購入しました。よろしくお願いします。'],
             ['user_id' => $seller2->id, 'message' => 'ありがとうございます。本日発送しました。'],
-            ['user_id' => $user3->id, 'message' => '受け取りました。問題ありませんでした。'],
+            ['user_id' => $seller1->id, 'message' => '受け取りました。問題ありませんでした。'],
         ];
 
         foreach ($micMessages as $row) {
