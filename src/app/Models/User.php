@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Profile;
-use App\Models\Item;
-use App\Models\Like;
-use App\Models\Comment;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -68,17 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sellerTrades()
     {
-        return $this->hasMany(\App\Models\Trade::class, 'seller_id');
+        return $this->hasMany(Trade::class, 'seller_id');
     }
 
     public function buyerTrades()
     {
-        return $this->hasMany(\App\Models\Trade::class, 'buyer_id');
+        return $this->hasMany(Trade::class, 'buyer_id');
     }
 
     public function receivedReviews()
     {
-        return $this->hasMany(\App\Models\TradeReview::class, 'reviewee_id');
+        return $this->hasMany(TradeReview::class, 'reviewee_id');
     }
 
     public function reviewAverage(): ?float
