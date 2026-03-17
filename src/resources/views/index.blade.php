@@ -42,11 +42,11 @@
                 <a href="{{ route('items.detail', $item->id) }}">
                 @if($item->sold())
                     <div class="item__img sold">
-                        <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">
+                        <img src="{{ asset($item->img_url) }}" alt="商品画像">
                     </div>
                 @else
                     <div class="item__img">
-                        <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">
+                        <img src="{{ asset($item->img_url) }}" alt="商品画像">
                     </div>
                 @endif
                     <p class="item__name">{{$item->name}}</p>

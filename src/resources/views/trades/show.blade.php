@@ -129,7 +129,7 @@
                         </label>
 
                         <button type="submit" class="trade-show__submit-btn">
-                            <img src="{{ Storage::url('img/inputbutton.jpg') }}" alt="送信">
+                            <img src="{{ asset('img/inputbutton.jpg') }}" alt="送信">
                         </button>
                     </div>
 

@@ -14,7 +14,7 @@
         <div class="buy__left">
             <div class="item">
                 <div class="item__img">
-                    <img src="{{ Storage::url($item->img_url) }}" alt="商品画像">
+                    <img src="{{ asset($item->img_url) }}" alt="商品画像">
                 </div>
                 <div class="item__info">
                     <h3 class="item__name">{{ $item->name }}</h3>
