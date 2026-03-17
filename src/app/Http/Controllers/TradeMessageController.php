@@ -32,7 +32,8 @@ class TradeMessageController extends Controller
 
         return redirect()
             ->route('trades.show', $trade)
-            ->with('success', 'メッセージを送信しました。');
+            ->with('success', 'メッセージを送信しました。')
+            ->with('message_sent', true);
     }
 
     public function edit(TradeMessage $message)

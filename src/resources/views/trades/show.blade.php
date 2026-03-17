@@ -8,7 +8,7 @@
 
 @section('content')
 
-@include('components.header')
+@include('components.header-simple')
 <div class="trade-show">
     <div class="trade-show__container">
 
@@ -111,8 +111,7 @@
                     action="{{ route('trade.messages.store', $trade) }}"
                     method="post"
                     enctype="multipart/form-data"
-                    class="trade-show__form"
-                    id="trade-message-form">
+                    class="trade-show__form">
                     @csrf
 
                     <div class="trade-show__form-main">
@@ -199,14 +198,22 @@
         if (!input) return;
 
         const storageKey = 'trade_message_draft_' + tradeId;
+        const messageSent = {
+            {
+                session('message_sent') ? 'true' : 'false'
+            }
+        };
 
-        // 復元
+        if (messageSent) {
+            localStorage.removeItem(storageKey);
+            return;
+        }
+
         const saved = localStorage.getItem(storageKey);
         if (!input.value && saved !== null) {
             input.value = saved;
         }
 
-        // 入力のたびに保存
         input.addEventListener('input', function() {
             localStorage.setItem(storageKey, input.value);
         });
