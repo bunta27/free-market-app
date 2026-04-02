@@ -45,7 +45,7 @@
 
             <div class="trade-show__item-card">
                 <div class="trade-show__item-image">
-                    <img src="{{ asset('storage/' . $trade->item->img_url) }}" alt="{{ $trade->item->name }}">
+                    <img src="{{ asset($trade->item->img_url) }}" alt="{{ $trade->item->name }}">
                 </div>
                 <div class="trade-show__item-info">
                     <h2 class="trade-show__item-name">{{ $trade->item->name }}</h2>
