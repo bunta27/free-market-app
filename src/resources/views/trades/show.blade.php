@@ -111,7 +111,8 @@
                     action="{{ route('trade.messages.store', $trade) }}"
                     method="post"
                     enctype="multipart/form-data"
-                    class="trade-show__form">
+                    class="trade-show__form"
+                    id="trade-message-form">
                     @csrf
 
                     <div class="trade-show__form-main">
@@ -194,18 +195,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         const tradeId = "{{ $trade->id }}";
         const input = document.getElementById('trade-message-input');
+        const form = document.getElementById('trade-message-form');
+        const sidebarLinks = document.querySelectorAll('.trade-show__sidebar-item');
+        const shouldClearDraft = "{{ request('clear_draft') }}" === "1";
 
-        if (!input) return;
+        if (!input || !form) return;
 
         const storageKey = 'trade_message_draft_' + tradeId;
-        const messageSent = {
-            {
-                session('message_sent') ? 'true' : 'false'
-            }
+
+        const saveDraft = function() {
+            localStorage.setItem(storageKey, input.value || '');
         };
 
-        if (messageSent) {
+        if (shouldClearDraft) {
             localStorage.removeItem(storageKey);
+            input.value = '';
             return;
         }
 
@@ -214,8 +218,22 @@
             input.value = saved;
         }
 
-        input.addEventListener('input', function() {
-            localStorage.setItem(storageKey, input.value);
+        input.addEventListener('input', saveDraft);
+        input.addEventListener('keyup', saveDraft);
+        input.addEventListener('change', saveDraft);
+        input.addEventListener('blur', saveDraft);
+
+        sidebarLinks.forEach(function(link) {
+            link.addEventListener('mousedown', saveDraft);
+            link.addEventListener('touchstart', saveDraft, {
+                passive: true
+            });
+        });
+
+        window.addEventListener('beforeunload', saveDraft);
+
+        form.addEventListener('submit', function() {
+            saveDraft();
         });
     });
 </script>
